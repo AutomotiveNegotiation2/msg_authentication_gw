@@ -33,11 +33,12 @@
 #include "mbedtls/error.h"
 
 #include <string.h>
+#include <stdint.h>
 
 #if defined(MBEDTLS_ECDH_LEGACY_CONTEXT)
 typedef mbedtls_ecdh_context mbedtls_ecdh_context_mbed;
 #endif
-
+#define ATM_ECDH mbedtls_ecdh_context_mbed
 static mbedtls_ecp_group_id mbedtls_ecdh_grp_id(
     const mbedtls_ecdh_context *ctx)
 {
