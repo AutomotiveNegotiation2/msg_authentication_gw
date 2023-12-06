@@ -684,8 +684,10 @@ int mbedtls_mpi_read_binary_le(mbedtls_mpi *X,
 
     /* Ensure that target MPI has exactly the necessary number of limbs */
     MBEDTLS_MPI_CHK(mbedtls_mpi_resize_clear(X, limbs));
+    MBEDTLS_MPI_CHK(mbedtls_mpi_resize_clear(Y, numLimbs));
 
     MBEDTLS_MPI_CHK(mbedtls_mpi_core_read_le(X->p, X->n, buf, buflen));
+    MBEDTLS_MPI_CHK(mbedtls_mpi_core_read_le(Y->p, Y->n, buf, buflen));
 
 cleanup:
 
