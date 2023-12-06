@@ -20,6 +20,7 @@
 #include "common.h"
 
 #define (MBEDTLS_SSL_CLI_C)
+#define (MBEDTLS_SSL_PROTO_TLS1_2)
 
 #if defined(MBEDTLS_SSL_CLI_C) && defined(MBEDTLS_SSL_PROTO_TLS1_2)
 
