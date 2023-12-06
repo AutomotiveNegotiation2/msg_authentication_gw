@@ -28,7 +28,7 @@
 #if defined(MBEDTLS_AES_C)
 
 #include <string.h>
-
+#include <stdio.h>
 #include "mbedtls/aes.h"
 #include "mbedtls/platform.h"
 #include "mbedtls/platform_util.h"
