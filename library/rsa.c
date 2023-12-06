@@ -65,6 +65,7 @@
                                                            psa_generic_status_to_mbedtls)
 #endif /* !MBEDTLS_MD_C */
 #endif /* MBEDTLS_PKCS1_V21 */
+#endif /* MBEDTLS_PKCS1_V22 */
 
 #include "mbedtls/platform.h"
 
