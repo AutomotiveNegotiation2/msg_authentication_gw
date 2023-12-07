@@ -110,23 +110,23 @@ static int cmac_multiply_by_v(unsigned char *output,
                               const unsigned char *input,
                               size_t blocksize)
 {
-    const unsigned char R_128 = 0x87;
-    const unsigned char R_64 = 0x1B;
-    unsigned char R_n, mask;
-    unsigned char overflow = 0x00;
-    int ix;
+    const unsigned char     R_128       = 0x87;
+    const unsigned char     R_64        = 0x1B;
+    unsigned char           R_n, mask;
+    unsigned char           overflow    = 0x00;
+    int                     ix;
 
     if (blocksize == MBEDTLS_AES_BLOCK_SIZE) {
-        R_n = R_128;
+        R_n     = R_128;
     } else if (blocksize == MBEDTLS_DES3_BLOCK_SIZE) {
-        R_n = R_64;
+        R_n     = R_64;
     } else {
         return MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA;
     }
 
     for (ix = (int) blocksize - 1; ix >= 0; ix--) {
-        output[ix] = input[ix] << 1 | overflow;
-        overflow = input[ix] >> 7;
+        output[ix]  = input[ix] << 1 | overflow;
+        overflow    = input[ix] >> 7;
     }
 
     /* mask = ( input[0] >> 7 ) ? 0xff : 0x00
@@ -138,12 +138,12 @@ static int cmac_multiply_by_v(unsigned char *output,
 #pragma warning( push )
 #pragma warning( disable : 4146 )
 #endif
-    mask = -(input[0] >> 7);
+    mask    = -(input[0] >> 7);
 #if defined(_MSC_VER)
 #pragma warning( pop )
 #endif
 
-    output[blocksize - 1] ^= R_n & mask;
+    output[blocksize - 1]   ^= R_n & mask;
 
     return 0;
 }
