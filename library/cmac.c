@@ -116,15 +116,15 @@ static int cmac_multiply_by_v(unsigned char *output,
     unsigned char           overflow    = 0x00;
     unsigned int            ix;
 
-    if (blocksize == MBEDTLS_AES_BLOCK_SIZE) {
+    if( blocksize == MBEDTLS_AES_BLOCK_SIZE ) {
         R_n     = R_128;
-    } else if (blocksize == MBEDTLS_DES3_BLOCK_SIZE) {
+    } else if( blocksize == MBEDTLS_DES3_BLOCK_SIZE ) {
         R_n     = R_64;
     } else {
         return MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA;
     }
 
-    for (ix = (int) blocksize - 1u; ix >= 0u; ix--) {
+    for( ix = (int) blocksize - 1u; ix >= 0u; ix-- ) {
         output[ix]  = input[ix] << 1u | overflow;
         overflow    = input[ix] >> 7u;
     }
