@@ -97,6 +97,13 @@ int mbedtls_ecdh_gen_public(mbedtls_ecp_group *grp, mbedtls_mpi *d, mbedtls_ecp_
 {
     return ecdh_gen_public_restartable(grp, d, Q, f_rng, p_rng, NULL);
 }
+
+int mbedtls_ecdh_gen_private(mbedtls_ecp_group *grp, mbedtls_mpi *d, mbedtls_ecp_point *Q,
+                            int (*f_rng)(void *, unsigned char *, size_t),
+                            void *p_rng)
+{
+    return ecdh_gen_public_restartable(grp, d, Q, f_rng, p_rng, NULL);
+}
 #endif /* !MBEDTLS_ECDH_GEN_PUBLIC_ALT */
 
 #if !defined(MBEDTLS_ECDH_COMPUTE_SHARED_ALT)
