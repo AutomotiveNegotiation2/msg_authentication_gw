@@ -151,6 +151,7 @@ int mbedtls_ecdh_compute_shared(mbedtls_ecp_group *grp, mbedtls_mpi *z,
 }
 #endif /* !MBEDTLS_ECDH_COMPUTE_SHARED_ALT */
 
+static void ecdh_init_external(mbedtls_ecdh_context_mbed *ctx)
 static void ecdh_init_internal(mbedtls_ecdh_context_mbed *ctx)
 {
     mbedtls_ecp_group_init(&ctx->grp);
