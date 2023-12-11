@@ -65,23 +65,23 @@ static inline void chacha20_quarter_round(uint32_t state[16],
                                           size_t d)
 {
     /* a += b; d ^= a; d <<<= 16; */
-    state[a] += state[b];
-    state[d] ^= state[a];
+    state[a] = state[a] + state[b];
+    state[d] = state[d] ^ state[a];
     state[d] = ROTL32(state[d], 16);
 
     /* c += d; b ^= c; b <<<= 12 */
-    state[c] += state[d];
-    state[b] ^= state[c];
+    state[c] = state[c] + state[d];
+    state[b] = state[b] ^ state[c];
     state[b] = ROTL32(state[b], 12);
 
     /* a += b; d ^= a; d <<<= 8; */
-    state[a] += state[b];
-    state[d] ^= state[a];
+    state[a] = state[a] + state[b];
+    state[d] = state[d] ^ state[a];
     state[d] = ROTL32(state[d], 8);
 
     /* c += d; b ^= c; b <<<= 7; */
-    state[c] += state[d];
-    state[b] ^= state[c];
+    state[c] = state[c] + state[d];
+    state[b] = state[b] ^ state[c];
     state[b] = ROTL32(state[b], 7);
 }
 
