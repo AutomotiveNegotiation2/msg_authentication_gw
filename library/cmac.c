@@ -112,10 +112,11 @@ static int cmac_multiply_by_v(unsigned char *output,
 {
     const unsigned char     R_128       = 0x87;
     const unsigned char     R_64        = 0x1B;
-    unsigned char           R_n, mask;
+    unsigned char           mask;
+    unsigned char           mask;
     unsigned char           overflow    = 0x00;
     unsigned int            ix;
-    int                     ret = 0;
+    int                     ret         = 0;
 
     if( blocksize == MBEDTLS_AES_BLOCK_SIZE ) {
         R_n     = R_128;
