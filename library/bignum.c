@@ -2432,6 +2432,11 @@ int mbedtls_mpi_gen_prime(mbedtls_mpi *X, size_t nbits, int flags,
         rounds = ((nbits >= 1300) ?  2 : (nbits >=  850) ?  3 :
                   (nbits >=  650) ?  4 : (nbits >=  350) ?  8 :
                   (nbits >=  250) ? 12 : (nbits >=  150) ? 18 : 27);
+				  
+		if(rounds == -1)
+		{
+			return -1;
+		}
     } else {
         /*
          * 2^-100 error probability, number of rounds computed based on HAC,
