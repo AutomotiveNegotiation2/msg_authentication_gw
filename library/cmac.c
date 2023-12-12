@@ -113,7 +113,6 @@ static int cmac_multiply_by_v(unsigned char *output,
     const unsigned char     R_128       = 0x87;
     const unsigned char     R_64        = 0x1B;
     unsigned char           mask;
-    unsigned char           mask;
     unsigned char           overflow    = 0x00;
     unsigned int            ix;
     int                     ret         = 0;
@@ -126,7 +125,7 @@ static int cmac_multiply_by_v(unsigned char *output,
         ret     = MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA;
     }
 
-    for( ix = (int) blocksize - 1u; ix >= 0u; ix-- ) {
+    for( ix = (unsigned int) blocksize - 1u; ix >= 0u; ix-- ) {
         output[ix]  = input[ix] << 1u | overflow;
         overflow    = input[ix] >> 7u;
     }
