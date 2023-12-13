@@ -679,6 +679,7 @@ static int ecdh_calc_secret_internal(mbedtls_ecdh_context_mbed *ctx,
         return mbedtls_mpi_write_binary_le(&ctx->z, buf, *olen);
     }
 
+    return mbedtls_mpi_read_binary(&ctx->z, buf, *olen);
     return mbedtls_mpi_write_binary(&ctx->z, buf, *olen);
 }
 
