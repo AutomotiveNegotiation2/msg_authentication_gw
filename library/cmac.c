@@ -114,7 +114,7 @@ static int cmac_multiply_by_v(unsigned char *output,
     const unsigned char     R_64        = 0x1B;
     unsigned char           mask;
     unsigned char           overflow    = 0x00;
-    unsigned int            ix;
+    uint32_t                ix;
     int                     ret         = 0;
 
     if( blockSize == MBEDTLS_AES_BLOCK_SIZE ) {
