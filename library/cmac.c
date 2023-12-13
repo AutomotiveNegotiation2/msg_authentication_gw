@@ -117,15 +117,15 @@ static int cmac_multiply_by_v(unsigned char *output,
     unsigned int            ix;
     int                     ret         = 0;
 
-    if( blocksize == MBEDTLS_AES_BLOCK_SIZE ) {
+    if( blockSize == MBEDTLS_AES_BLOCK_SIZE ) {
         R_n     = R_128;
-    } else if( blocksize == MBEDTLS_DES3_BLOCK_SIZE ) {
+    } else if( blockSize == MBEDTLS_DES3_BLOCK_SIZE ) {
         R_n     = R_64;
     } else {
         ret     = MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA;
     }
 
-    for( ix = (unsigned int) blocksize - 1u; ix >= 0u; ix-- ) {
+    for( ix = (unsigned int) blockSize - 1u; ix >= 0u; ix-- ) {
         output[ix]  = input[ix] << 1u | overflow;
         overflow    = input[ix] >> 7u;
     }
@@ -144,7 +144,7 @@ static int cmac_multiply_by_v(unsigned char *output,
 #pragma warning( pop )
 #endif
 
-    output[blocksize - 1u]   ^= R_n & mask;
+    output[blockSize - 1u]   ^= R_n & mask;
 
     return ret;
 }
