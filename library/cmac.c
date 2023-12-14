@@ -127,7 +127,7 @@ static int cmac_multiply_by_v(unsigned char *output,
         }
 
         for( ix = (unsigned int) blockSize - 1u; ix >= 0u; ix-- ) {
-            output[ix]  = input[ix] << 1u | overflow;
+            output[ix]  = (input[ix] << 1u) | overflow;
             overflow    = input[ix] >> 7u;
         }
 
