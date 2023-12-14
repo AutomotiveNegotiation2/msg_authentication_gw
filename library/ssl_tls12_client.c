@@ -19,6 +19,18 @@
 
 #include "common.h"
 
+/**
+ * \def MBEDTLS_SSL_CLI_C
+ *
+ * Enable the SSL/TLS client code.
+ *
+ * Module:  library/ssl*_client.c
+ * Caller:
+ *
+ * Requires: MBEDTLS_SSL_TLS_C
+ *
+ * This module is required for SSL/TLS client support.
+ */
 #define MBEDTLS_SSL_CLI_C
 #define MBEDTLS_SSL_PROTO_TLS1_2
 
