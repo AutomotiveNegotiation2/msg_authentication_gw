@@ -117,34 +117,40 @@ static int cmac_multiply_by_v(unsigned char *output,
     uint32_t                ix;
     int                     ret         = 0;
 
-    if( blockSize == MBEDTLS_AES_BLOCK_SIZE ) {
-        R_n     = R_128;
-    } else if( blockSize == MBEDTLS_DES3_BLOCK_SIZE ) {
-        R_n     = R_64;
-    } else {
-        ret     = MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA;
-    }
+    if( (output != NULL) && (input != NULL) && (blocksize > 0) ) {
+        if( blockSize == MBEDTLS_AES_BLOCK_SIZE ) {
+            R_n     = R_128;
+        } else if( blockSize == MBEDTLS_DES3_BLOCK_SIZE ) {
+            R_n     = R_64;
+        } else {
+            ret     = MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA;
+        }
 
-    for( ix = (unsigned int) blockSize - 1u; ix >= 0u; ix-- ) {
-        output[ix]  = input[ix] << 1u | overflow;
-        overflow    = input[ix] >> 7u;
-    }
+        for( ix = (unsigned int) blockSize - 1u; ix >= 0u; ix-- ) {
+            output[ix]  = input[ix] << 1u | overflow;
+            overflow    = input[ix] >> 7u;
+        }
 
-    /* mask = ( input[0] >> 7 ) ? 0xff : 0x00
-     * using bit operations to avoid branches */
+        /* mask = ( input[0] >> 7 ) ? 0xff : 0x00
+         * using bit operations to avoid branches */
 
-    /* MSVC has a warning about unary minus on unsigned, but this is
-     * well-defined and precisely what we want to do here */
+        /* MSVC has a warning about unary minus on unsigned, but this is
+         * well-defined and precisely what we want to do here */
 #if defined(_MSC_VER)
 #pragma warning( push )
 #pragma warning( disable : 4146 )
 #endif
-    mask    = -(input[0] >> 7u);
+        mask    = -(input[0] >> 7u);
 #if defined(_MSC_VER)
 #pragma warning( pop )
 #endif
 
-    output[blockSize - 1u]   ^= R_n & mask;
+        output[blockSize - 1u]   ^= R_n & mask;
+    }
+    else
+    {
+        ret = 1;
+    }
 
     return ret;
 }
