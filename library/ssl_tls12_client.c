@@ -32,7 +32,25 @@
  * This module is required for SSL/TLS client support.
  */
 #define MBEDTLS_SSL_CLI_C
+
+/**
+ * \def MBEDTLS_SSL_PROTO_TLS1_2
+ *
+ * Enable support for TLS 1.2 (and DTLS 1.2 if DTLS is enabled).
+ *
+ * Requires: Without MBEDTLS_USE_PSA_CRYPTO: MBEDTLS_MD_C and
+ *              (MBEDTLS_SHA1_C or MBEDTLS_SHA256_C or MBEDTLS_SHA512_C)
+ *           With MBEDTLS_USE_PSA_CRYPTO:
+ *              PSA_WANT_ALG_SHA_1 or PSA_WANT_ALG_SHA_256 or
+ *              PSA_WANT_ALG_SHA_512
+ *
+ * \warning If building with MBEDTLS_USE_PSA_CRYPTO, you must call
+ * psa_crypto_init() before doing any TLS operations.
+ *
+ * Comment this macro to disable support for TLS 1.2 / DTLS 1.2
+ */
 #define MBEDTLS_SSL_PROTO_TLS1_2
+
 
 /* These defines are present so that the config modifying scripts can enable
  * them during tests/scripts/test-ref-configs.pl */
