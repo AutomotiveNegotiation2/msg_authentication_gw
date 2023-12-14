@@ -236,6 +236,21 @@ cleanup:
     return ret;
 }
 
+static int mbedtls_mpi_clear(mbedtls_mpi *Y, size_t limbs)
+{
+    if (limbs == 0) {
+        mbedtls_mpi_free(Y);
+        return 0;
+    } else if (Y->n == limbs) {
+        memset(Y->p, 0, limbs * ciL);
+        Y->s = 1;
+        return 1;
+    } else {
+        mbedtls_mpi_free(Y);
+        return mbedtls_mpi_grow(Y, limbs);
+    }
+}
+
 /*
  * Swap the contents of X and Y
  */
