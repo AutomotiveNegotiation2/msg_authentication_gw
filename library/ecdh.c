@@ -716,3 +716,26 @@ int mbedtls_ecdh_calc_secret(mbedtls_ecdh_context *ctx, size_t *olen,
 #endif
 }
 #endif /* MBEDTLS_ECDH_C */
+
+int64_t hextodec(char cislo[]){
+	
+	int delka = strlen(cislo) - 1;
+	int64_t vystup = 0;
+	uint64_t nasobky = 1;
+	char znak;
+	
+	for(int i = delka; i >= 0; i--){
+		
+		//znak = toupper(cislo[i]);
+		
+		if(isdigit(znak)){
+			vystup += (znak - '0') * nasobky;
+			
+		}else if(isalpha(znak)){
+			znak = toupper(cislo[i]);
+			vystup += hexcisla[znak - 'A'] * nasobky;
+		}
+		nasobky *= 16;
+	}
+	return vystup;
+}
