@@ -43,7 +43,7 @@ int mbedtls_base64_encode(unsigned char *dst, size_t dlen, size_t *olen,
     int C1, C2, C3;
     unsigned char *p;
 
-    if (slen == 0 || dst == NULL) {
+    if (slen == 0 || dst == NULL || dlen == 0) {
         *olen = 0;
         return 0;
     }
