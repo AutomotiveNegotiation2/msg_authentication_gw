@@ -815,6 +815,16 @@ int mbedtls_mpi_write_binary_le(const mbedtls_mpi *X,
     return mbedtls_mpi_core_write_le(X->p, X->n, buf, buflen);
 }
 
+int mbedtls_mpi_write_binary_le2(const mbedtls_mpi *X,
+                                unsigned char *buf, size_t buflen)
+{
+	if(buf == NULL)
+	{
+		return -1;
+	}
+    return mbedtls_mpi_core_write_le(X->p, X->n, buf, buflen);
+}
+
 /*
  * Export X into unsigned binary data, big endian
  */
