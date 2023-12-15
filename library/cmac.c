@@ -110,10 +110,10 @@ static int cmac_multiply_by_v(unsigned char *output,
                               const unsigned char *input,
                               size_t blocksize)
 {
-    const unsigned char     R_128       = 0x87;
-    const unsigned char     R_64        = 0x1B;
-    unsigned char           mask;
-    unsigned char           overflow    = 0x00;
+    const uint8_t           R_128       = 0x87;
+    const uint8_t           R_64        = 0x1B;
+    uint8_t                 mask;
+    uint8_t                 overflow    = 0x00;
     uint32_t                ix;
     int                     ret         = 0;
 
