@@ -218,7 +218,7 @@ int mbedtls_chacha20_update(mbedtls_chacha20_context *ctx,
     size_t offset = 0U;
 
     /* Use leftover keystream bytes, if available */
-    while (size > 0U && ctx->keystream_bytes_used < CHACHA20_BLOCK_SIZE_BYTES) {
+    while ((size > 0U) && (ctx->keystream_bytes_used < CHACHA20_BLOCK_SIZE_BYTES)) {
         output[offset] = input[offset]
                          ^ ctx->keystream8[ctx->keystream_bytes_used];
 
