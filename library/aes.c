@@ -1995,14 +1995,6 @@ int mbedtls_aes_self_test(int verbose)
 
         len = aes_test_ctr_len[u];
 
-        if (mode == MBEDTLS_AES_DECRYPT) {
-            memcpy(buf, aes_test_ctr_ct[u], len);
-            aes_tests = aes_test_ctr_pt[u];
-        } else {
-            memcpy(buf, aes_test_ctr_pt[u], len);
-            aes_tests = aes_test_ctr_ct[u];
-        }
-
         ret = mbedtls_aes_crypt_ctr(&ctx, len, &offset, nonce_counter,
                                     stream_block, buf, buf);
         if (ret != 0) {
