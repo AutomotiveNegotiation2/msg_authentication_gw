@@ -456,15 +456,15 @@ static const size_t test_lengths[2] =
 /* Make sure no other definition is already present. */
 #undef ASSERT
 
-#define ASSERT(cond, args)            \
+#define ASSERT(cond, args)              \
     do                                  \
     {                                   \
-        if (!(cond))                \
+        if (!(cond))                    \
         {                               \
-            if (verbose != 0)          \
-            mbedtls_printf args;    \
+            if (verbose != 0)           \
+            mbedtls_printf args;        \
                                         \
-            return -1;               \
+            return -1;                  \
         }                               \
     }                                   \
     while (0)
