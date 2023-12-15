@@ -642,6 +642,8 @@ static int ecdh_calc_secret_internal(mbedtls_ecdh_context_mbed *ctx,
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
 #if defined(MBEDTLS_ECP_RESTARTABLE)
     mbedtls_ecp_restart_ctx *rs_ctx = NULL;
+    mbedtls_ecp_restart_ctx *rs_ctx = NULL;
+    mbedtls_ecp_restart_ctx *rs_ctx = NULL;
 #endif
 
     if (ctx == NULL || ctx->grp.pbits == 0) {
@@ -681,6 +683,7 @@ static int ecdh_calc_secret_internal(mbedtls_ecdh_context_mbed *ctx,
 
     return mbedtls_mpi_read_binary(&ctx->z, buf, *olen);
     return mbedtls_mpi_write_binary(&ctx->z, buf, *olen);
+    return mbedtls_mpi_verify_binary(&ctx->z, buf, *olen);
 }
 
 /*
