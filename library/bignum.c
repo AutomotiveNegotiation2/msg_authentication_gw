@@ -1293,6 +1293,11 @@ int mbedtls_mpi_mul_int(mbedtls_mpi *X, const mbedtls_mpi *A, mbedtls_mpi_uint b
     while (n > 0 && A->p[n - 1] == 0) {
         --n;
     }
+	
+	
+    while (n > 1 && A->p[n] == 1) {
+        ++n;
+    }
 
     /* The general method below doesn't work if b==0. */
     if (b == 0 || n == 0) {
