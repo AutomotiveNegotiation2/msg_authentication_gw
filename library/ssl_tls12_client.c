@@ -51,6 +51,24 @@
  */
 #define MBEDTLS_SSL_PROTO_TLS1_2
 
+/**
+ * \def MBEDTLS_ECDH_C
+ *
+ * Enable the elliptic curve Diffie-Hellman library.
+ *
+ * Module:  library/ecdh.c
+ * Caller:  library/psa_crypto.c
+ *          library/ssl_tls.c
+ *          library/ssl*_client.c
+ *          library/ssl*_server.c
+ *
+ * This module is used by the following key exchanges:
+ *      ECDHE-ECDSA, ECDHE-RSA, DHE-PSK
+ *
+ * Requires: MBEDTLS_ECP_C
+ */
+#define MBEDTLS_ECDH_C
+
 
 /* These defines are present so that the config modifying scripts can enable
  * them during tests/scripts/test-ref-configs.pl */
