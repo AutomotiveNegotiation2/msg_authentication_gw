@@ -37,7 +37,7 @@
 #if !defined(MBEDTLS_CHACHA20_ALT)
 
 #define ROTL32(value, amount) \
-    ((uint32_t) ((value) << (amount)) | ((value) >> (32 - (amount))))
+    ((uint32_t) ((value) << (amount)) | ((value) >> (32U - (amount))))
 
 #define CHACHA20_CTR_INDEX (12U)
 
@@ -67,22 +67,22 @@ static inline void chacha20_quarter_round(uint32_t state[16],
     /* a += b; d ^= a; d <<<= 16; */
     state[a] = state[a] + state[b];
     state[d] = state[d] ^ state[a];
-    state[d] = ROTL32(state[d], 16);
+    state[d] = ROTL32(state[d], 16U);
 
     /* c += d; b ^= c; b <<<= 12 */
     state[c] = state[c] + state[d];
     state[b] = state[b] ^ state[c];
-    state[b] = ROTL32(state[b], 12);
+    state[b] = ROTL32(state[b], 12U);
 
     /* a += b; d ^= a; d <<<= 8; */
     state[a] = state[a] + state[b];
     state[d] = state[d] ^ state[a];
-    state[d] = ROTL32(state[d], 8);
+    state[d] = ROTL32(state[d], 8U);
 
     /* c += d; b ^= c; b <<<= 7; */
     state[c] = state[c] + state[d];
     state[b] = state[b] ^ state[c];
-    state[b] = ROTL32(state[b], 7);
+    state[b] = ROTL32(state[b], 7U);
 }
 
 /**
