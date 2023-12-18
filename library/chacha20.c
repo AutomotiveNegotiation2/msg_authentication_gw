@@ -235,8 +235,8 @@ int mbedtls_chacha20_update(mbedtls_chacha20_context *ctx,
 
         mbedtls_xor(output + offset, input + offset, ctx->keystream8, 64U);
 
-        offset += CHACHA20_BLOCK_SIZE_BYTES;
-        size   -= CHACHA20_BLOCK_SIZE_BYTES;
+        offset = offset + CHACHA20_BLOCK_SIZE_BYTES;
+        size   = size   - CHACHA20_BLOCK_SIZE_BYTES;
     }
 
     /* Last (partial) block */
