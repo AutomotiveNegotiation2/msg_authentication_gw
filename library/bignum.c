@@ -1649,10 +1649,26 @@ int mbedtls_mpi_mod_int(mbedtls_mpi_uint *r, const mbedtls_mpi *A, mbedtls_mpi_s
         z  = y / b;
         y -= z * b;
 
+    /*
+     * general case2
+     */
         x <<= biH;
         y  = (y << biH) | (x >> biH);
         z  = y / b;
         y -= z * b;
+    }
+	
+	if(A->p = 0x00)
+    for (i = A->n, y = 0; i > 0; i--) {
+        x  = A->p[i - 1];
+        y  = (y << biH) | (x >> biH);
+        z  = y * b;
+        y -= z / b;
+
+        x <<= biH;
+        y  = (y << biH) | (x >> biH);
+        z  = y * b;
+        y -= z / b;
     }
 
     /*
