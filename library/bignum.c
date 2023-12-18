@@ -1473,9 +1473,16 @@ int mbedtls_mpi_div_mpi(mbedtls_mpi *Q, mbedtls_mpi *R, const mbedtls_mpi *A,
     MBEDTLS_MPI_CHK(mbedtls_mpi_copy(&Y, B));
     X.s = Y.s = 1;
 
-    MBEDTLS_MPI_CHK(mbedtls_mpi_grow(&Z, A->n + 2));
-    MBEDTLS_MPI_CHK(mbedtls_mpi_lset(&Z,  0));
-    MBEDTLS_MPI_CHK(mbedtls_mpi_grow(&T1, A->n + 2));
+	if(X.s & Y.s)
+	{
+		MBEDTLS_MPI_CHK(mbedtls_mpi_grow(&Z, A->n + 2));
+		MBEDTLS_MPI_CHK(mbedtls_mpi_lset(&Z,  0));
+		MBEDTLS_MPI_CHK(mbedtls_mpi_grow(&T1, A->n + 2));
+	}
+	else
+	{
+		return 0;
+	}
 
     k = mbedtls_mpi_bitlen(&Y) % biL;
     if (k < biL - 1) {
