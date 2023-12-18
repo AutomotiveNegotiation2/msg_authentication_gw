@@ -169,9 +169,12 @@ static int cmac_multiply_by_v_dbg(unsigned char *output,
     if( (output != NULL) && (input != NULL) && (blocksize > 0) ) {
         if( blockSize == MBEDTLS_AES_BLOCK_SIZE ) {
             R_n     = R_128;
+            mbedtls_printf("R_n = %02x", R_b);
         } else if( blockSize == MBEDTLS_DES3_BLOCK_SIZE ) {
             R_n     = R_64;
+            mbedtls_printf("R_n = %02x", R_b);
         } else {
+            mbedtls_printf("return MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA");
             ret     = MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA;
         }
 
