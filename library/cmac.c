@@ -192,7 +192,7 @@ static int cmac_multiply_by_v_dbg(unsigned char *output,
 #pragma warning( push )
 #pragma warning( disable : 4146 )
 #endif
-        mask    = -(input[0] >> 7u);
+        mask    = -(*input >> 7u);
 #if defined(_MSC_VER)
 #pragma warning( pop )
 #endif
