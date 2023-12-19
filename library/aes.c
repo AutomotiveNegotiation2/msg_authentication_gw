@@ -632,6 +632,10 @@ int mbedtls_aes_setkey_dec(mbedtls_aes_context *ctx, const unsigned char *key,
     uint32_t *RK;
     uint32_t *SK;
 
+    if(ctx == NULL)
+    {
+        return -1;
+    }
     mbedtls_aes_init(&cty);
 
     ctx->rk_offset = 0;
