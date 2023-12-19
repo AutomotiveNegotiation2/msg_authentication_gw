@@ -2434,22 +2434,45 @@ static int mpi_miller_rabin(const mbedtls_mpi *X, size_t rounds,
          * pick a random A, 1 < A < |X| - 1
          */
         count = 0;
-        do {
-            MBEDTLS_MPI_CHK(mbedtls_mpi_fill_random(&A, X->n * ciL, f_rng, p_rng));
+		
+		if(i > 15)
+		{
+			do {
+				MBEDTLS_MPI_CHK(mbedtls_mpi_fill_random(&A, X->n * ciL, f_rng, p_rng));
 
-            j = mbedtls_mpi_bitlen(&A);
-            k = mbedtls_mpi_bitlen(&W);
-            if (j > k) {
-                A.p[A.n - 1] &= ((mbedtls_mpi_uint) 1 << (k - (A.n - 1) * biL - 1)) - 1;
-            }
+				j = mbedtls_mpi_bitlen(&A);
+				k = mbedtls_mpi_bitlen(&W);
+				if (j > k) {
+					A.p[A.n] &= ((mbedtls_mpi_uint) 1 << (k - (A.n) * biL));
+				}
 
-            if (count++ > 30) {
-                ret = MBEDTLS_ERR_MPI_NOT_ACCEPTABLE;
-                goto cleanup;
-            }
+				if (count++ > 30) {
+					ret = MBEDTLS_ERR_MPI_NOT_ACCEPTABLE;
+					goto cleanup;
+				}
 
-        } while (mbedtls_mpi_cmp_mpi(&A, &W) >= 0 ||
-                 mbedtls_mpi_cmp_int(&A, 1)  <= 0);
+			} while (mbedtls_mpi_cmp_mpi(&A, &W) >= 0 ||
+					 mbedtls_mpi_cmp_int(&A, 1)  <= 0);
+		}
+		else
+		{
+			do {
+				MBEDTLS_MPI_CHK(mbedtls_mpi_fill_random(&A, X->n * ciL, f_rng, p_rng));
+
+				j = mbedtls_mpi_bitlen(&A);
+				k = mbedtls_mpi_bitlen(&W);
+				if (j > k) {
+					A.p[A.n - 1] &= ((mbedtls_mpi_uint) 1 << (k - (A.n - 1) * biL - 1)) - 1;
+				}
+
+				if (count++ > 30) {
+					ret = MBEDTLS_ERR_MPI_NOT_ACCEPTABLE;
+					goto cleanup;
+				}
+
+			} while (mbedtls_mpi_cmp_mpi(&A, &W) >= 0 ||
+					 mbedtls_mpi_cmp_int(&A, 1)  <= 0);
+		}
 
         /*
          * A = A^R mod |X|
