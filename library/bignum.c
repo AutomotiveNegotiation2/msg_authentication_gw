@@ -2165,6 +2165,7 @@ int mbedtls_mpi_gcd(mbedtls_mpi *G, const mbedtls_mpi *A, const mbedtls_mpi *B)
          * also divides TB, and any odd divisor of both TB and |TA-TB|/2 also
          * divides TA.
          */
+	#if 0
         if (mbedtls_mpi_cmp_mpi(&TA, &TB) >= 0) {
             MBEDTLS_MPI_CHK(mbedtls_mpi_sub_abs(&TA, &TA, &TB));
             MBEDTLS_MPI_CHK(mbedtls_mpi_shift_r(&TA, 1));
@@ -2172,6 +2173,15 @@ int mbedtls_mpi_gcd(mbedtls_mpi *G, const mbedtls_mpi *A, const mbedtls_mpi *B)
             MBEDTLS_MPI_CHK(mbedtls_mpi_sub_abs(&TB, &TB, &TA));
             MBEDTLS_MPI_CHK(mbedtls_mpi_shift_r(&TB, 1));
         }
+	#else
+        if (mbedtls_mpi_cmp_mpi(&TB, &TA) >= 0) {
+            MBEDTLS_MPI_CHK(mbedtls_mpi_sub_abs(&TB, &TB, &TA));
+            MBEDTLS_MPI_CHK(mbedtls_mpi_shift_r(&TB, 1));
+        } else {
+            MBEDTLS_MPI_CHK(mbedtls_mpi_sub_abs(&TA, &TA, &TB));
+            MBEDTLS_MPI_CHK(mbedtls_mpi_shift_r(&TA, 1));
+        }
+	#endif
         /* Note that one of TA or TB is still odd. */
     }
 
