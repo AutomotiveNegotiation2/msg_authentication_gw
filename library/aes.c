@@ -1006,6 +1006,11 @@ int mbedtls_aes_crypt_cbc(mbedtls_aes_context *ctx,
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     unsigned char temp[16];
 
+    if(ctx == NULL)
+    {
+        return -1;
+    }
+
     if (mode != MBEDTLS_AES_ENCRYPT && mode != MBEDTLS_AES_DECRYPT) {
         return MBEDTLS_ERR_AES_BAD_INPUT_DATA;
     }
