@@ -132,7 +132,7 @@
  * enabled as well):
  *      MBEDTLS_TLS_ECJPAKE_WITH_AES_128_CCM_8
  */
-//#define MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED
+#define MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED
 
 /**
  * \def MBEDTLS_SSL_DTLS_CONNECTION_ID
@@ -166,6 +166,22 @@
  * Comment this macro to disable support for the max_fragment_length extension
  */
 #define MBEDTLS_SSL_MAX_FRAGMENT_LENGTH
+
+/** \def MBEDTLS_SSL_ENCRYPT_THEN_MAC
+ *
+ * Enable support for Encrypt-then-MAC, RFC 7366.
+ *
+ * This allows peers that both support it to use a more robust protection for
+ * ciphersuites using CBC, providing deep resistance against timing attacks
+ * on the padding or underlying cipher.
+ *
+ * This only affects CBC ciphersuites, and is useless if none is defined.
+ *
+ * Requires: MBEDTLS_SSL_PROTO_TLS1_2
+ *
+ * Comment this macro to disable support for Encrypt-then-MAC
+ */
+#define MBEDTLS_SSL_ENCRYPT_THEN_MAC
 
 #if defined(MBEDTLS_SSL_CLI_C) && defined(MBEDTLS_SSL_PROTO_TLS1_2)
 
