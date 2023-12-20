@@ -27,6 +27,9 @@
 
 #if defined(MBEDTLS_AES_C)
 
+#define MBEDTLS_VERSION_MAJOR 5
+#define MBEDTLS_VERSION_MINOR 15
+
 #include <string.h>
 #include <stdio.h>
 #include "mbedtls/aes.h"
@@ -52,6 +55,7 @@
 static int aes_padlock_ace = -1;
 #endif
 
+#if defined(MBEDTLS_VERSION_MAJOR >= 5 && MBEDTLS_VERSION_MINOR > 10)
 #if defined(MBEDTLS_AES_ROM_TABLES)
 /*
  * Forward S-box
@@ -348,7 +352,7 @@ static uint32_t RT1[256];
 static uint32_t RT2[256];
 static uint32_t RT3[256];
 #endif /* !MBEDTLS_AES_FEWER_TABLES */
-
+#endif
 /*
  * Round constants
  */
