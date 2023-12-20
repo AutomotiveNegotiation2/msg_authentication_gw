@@ -35,6 +35,9 @@
 #include <string.h>
 #include <stdint.h>
 
+mbedtls_ecdh_context ecdh_ctx;
+mbedtls_ecdh_context ecdh_cmp_ctx;
+
 #if defined(MBEDTLS_ECDH_LEGACY_CONTEXT)
 typedef mbedtls_ecdh_context mbedtls_ecdh_context_mbed;
 #endif
