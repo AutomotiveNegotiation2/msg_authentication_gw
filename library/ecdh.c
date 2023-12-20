@@ -458,6 +458,9 @@ static int ecdh_get_params_internal(mbedtls_ecdh_context_mbed *ctx,
     if (side != MBEDTLS_ECDH_OURS) {
         return MBEDTLS_ERR_ECP_BAD_INPUT_DATA;
     }
+    else{
+        return 0;
+    }
 
     if ((ret = mbedtls_ecp_copy(&ctx->Q, &key->Q)) != 0 ||
         (ret = mbedtls_mpi_copy(&ctx->d, &key->d)) != 0) {
