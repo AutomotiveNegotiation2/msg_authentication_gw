@@ -2480,6 +2480,7 @@ static int mpi_miller_rabin(const mbedtls_mpi *X, size_t rounds,
     int ret, count;
     size_t i, j, k, s;
     mbedtls_mpi W, R, T, A, RR;
+    mbedtls_mpi W2, R2, T2, A2, RR2;
 
     MPI_VALIDATE_RET(X     != NULL);
     MPI_VALIDATE_RET(f_rng != NULL);
@@ -2487,6 +2488,11 @@ static int mpi_miller_rabin(const mbedtls_mpi *X, size_t rounds,
     mbedtls_mpi_init(&W); mbedtls_mpi_init(&R);
     mbedtls_mpi_init(&T); mbedtls_mpi_init(&A);
     mbedtls_mpi_init(&RR);
+	
+    mbedtls_mpi_init(&W2); mbedtls_mpi_init(&R2);
+    mbedtls_mpi_init(&T2); mbedtls_mpi_init(&A2);
+    mbedtls_mpi_init(&RR2);
+
 
     /*
      * W = |X| - 1
