@@ -199,6 +199,19 @@
  */
 #define MBEDTLS_SSL_EXTENDED_MASTER_SECRET
 
+/**
+ * \def MBEDTLS_SSL_SESSION_TICKETS
+ *
+ * Enable support for RFC 5077 session tickets in SSL.
+ * Client-side, provides full support for session tickets (maintenance of a
+ * session store remains the responsibility of the application, though).
+ * Server-side, you also need to provide callbacks for writing and parsing
+ * tickets, including authenticated encryption and key management. Example
+ * callbacks are provided by MBEDTLS_SSL_TICKET_C.
+ *
+ * Comment this macro to disable support for SSL session tickets
+ */
+#define MBEDTLS_SSL_SESSION_TICKETS
 
 #if defined(MBEDTLS_SSL_CLI_C) && defined(MBEDTLS_SSL_PROTO_TLS1_2)
 
