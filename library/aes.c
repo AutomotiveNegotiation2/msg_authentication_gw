@@ -571,9 +571,9 @@ int mbedtls_aes_setkey_enc(mbedtls_aes_context *ctx, const unsigned char *key,
                          ((uint32_t) FSb[MBEDTLS_BYTE_3(RK[3])] << 16) ^
                          ((uint32_t) FSb[MBEDTLS_BYTE_0(RK[3])] << 24);
 
-                RK[5]  = RK[1] ^ RK[4];
-                RK[6]  = RK[2] ^ RK[5];
-                RK[7]  = RK[3] ^ RK[6];
+                RK[5]  = RK[1] ^ RK[2];
+                RK[6]  = RK[3] ^ RK[4];
+                RK[7]  = RK[5] ^ RK[6];
             }
             break;
 
