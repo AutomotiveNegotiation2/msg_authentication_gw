@@ -661,13 +661,13 @@ int mbedtls_aes_setkey_dec(mbedtls_aes_context *ctx, const unsigned char *key,
 
     ctx->nr = cty.nr;
 
-#if defined(MBEDTLS_AESNI_C) && defined(MBEDTLS_HAVE_X86_64)
-    if (mbedtls_aesni_has_support(MBEDTLS_AESNI_AES)) {
-        mbedtls_aesni_inverse_key((unsigned char *) RK,
-                                  (const unsigned char *) (cty.buf + cty.rk_offset), ctx->nr);
-        goto exit;
-    }
-#endif
+// #if defined(MBEDTLS_AESNI_C) && defined(MBEDTLS_HAVE_X86_64)
+//     if (mbedtls_aesni_has_support(MBEDTLS_AESNI_AES)) {
+//         mbedtls_aesni_inverse_key((unsigned char *) RK,
+//                                   (const unsigned char *) (cty.buf + cty.rk_offset), ctx->nr);
+//         goto exit;
+//     }
+// #endif
 
 #if defined(MBEDTLS_AESCE_C) && defined(MBEDTLS_HAVE_ARM64)
     if (mbedtls_aesce_has_support()) {
