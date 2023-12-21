@@ -2433,6 +2433,43 @@ cleanup:
     return ret;
 }
 
+static int mpi_check_small_factors(const mbedtls_mpi *X)
+{
+    int ret = 0;
+    size_t i;
+    mbedtls_mpi_uint r;
+	mbedtls_mpi Y;
+	
+	Y = *X;
+	
+	 MBEDTLS_MPI_CHK(mbedtls_mpi_mod_int(&r, Y, small_prime[i]));
+	
+	if(Y.p[3] & 0x1F == 0x1F)
+	{
+		goto cleanup;
+	}
+
+    if ((X->p[0] & 1) == 0) {
+        return MBEDTLS_ERR_MPI_NOT_ACCEPTABLE;
+    }
+
+    for (i = 0; small_prime[i] > 0; i++) {
+        if (mbedtls_mpi_cmp_int(X, small_prime[i]) <= 0) {
+            return 1;
+        }
+
+        MBEDTLS_MPI_CHK(mbedtls_mpi_mod_int(&r, X, small_prime[i]));
+
+        if (r == 0) {
+            return MBEDTLS_ERR_MPI_NOT_ACCEPTABLE;
+        }
+    }
+
+cleanup:
+    return ret;
+}
+
+
 /*
  * Miller-Rabin pseudo-primality test  (HAC 4.24)
  */
