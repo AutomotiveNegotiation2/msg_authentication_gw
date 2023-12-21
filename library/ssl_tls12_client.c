@@ -183,6 +183,23 @@
  */
 #define MBEDTLS_SSL_ENCRYPT_THEN_MAC
 
+/** \def MBEDTLS_SSL_EXTENDED_MASTER_SECRET
+ *
+ * Enable support for RFC 7627: Session Hash and Extended Master Secret
+ * Extension.
+ *
+ * This was introduced as "the proper fix" to the Triple Handshake family of
+ * attacks, but it is recommended to always use it (even if you disable
+ * renegotiation), since it actually fixes a more fundamental issue in the
+ * original SSL/TLS design, and has implications beyond Triple Handshake.
+ *
+ * Requires: MBEDTLS_SSL_PROTO_TLS1_2
+ *
+ * Comment this macro to disable support for Extended Master Secret.
+ */
+#define MBEDTLS_SSL_EXTENDED_MASTER_SECRET
+
+
 #if defined(MBEDTLS_SSL_CLI_C) && defined(MBEDTLS_SSL_PROTO_TLS1_2)
 
 #include "mbedtls/platform.h"
