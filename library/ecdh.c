@@ -466,6 +466,9 @@ static int ecdh_get_params_internal(mbedtls_ecdh_context_mbed *ctx,
         (ret = mbedtls_mpi_copy(&ctx->d, &key->d)) != 0) {
         return ret;
     }
+    else{
+        return 0;
+    }
 
     return 0;
 }
