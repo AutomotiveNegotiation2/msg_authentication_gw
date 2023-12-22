@@ -167,7 +167,7 @@ static int cmac_multiply_by_v_dbg(unsigned char *output,
     int                     ret         = 0;
 
     if( (output != NULL) && (input != NULL) && (blocksize > 0) ) {
-        switch ( blockSize ) {
+        switch( blockSize ) {
             case MBEDTLS_AES_BLOCK_SIZE :
                 R_n     = R_128;
                 mbedtls_printf("R_n = %02x", R_b);
