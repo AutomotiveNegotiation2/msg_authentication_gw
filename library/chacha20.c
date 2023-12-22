@@ -143,7 +143,7 @@ static void chacha20_block(const uint32_t initial_state[16],
     working_state[14] += initial_state[14];
     working_state[15] += initial_state[15];
 
-    for (i = 0U; i < 16; i++) {
+    for (i = 0U; i < 16U; i++) {
         size_t offset = i * 4U;
 
         MBEDTLS_PUT_UINT32_LE(working_state[i], keystream, offset);
