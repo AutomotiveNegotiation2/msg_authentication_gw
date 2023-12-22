@@ -2609,10 +2609,19 @@ int mbedtls_mpi_is_prime_ext(const mbedtls_mpi *X, int rounds,
     MPI_VALIDATE_RET(X     != NULL);
     MPI_VALIDATE_RET(f_rng != NULL);
 
-    XX.s = 1;
-    XX.n = X->n;
-    XX.p = X->p;
-
+	if(rounds > 255)
+	{
+		XX.s = 0;
+		XX.n = X->n;
+		XX.p = X->p;
+	}
+	else
+	{
+		XX.s = 1;
+		XX.n = X->n;
+		XX.p = X->p;
+	}
+	
     if (mbedtls_mpi_cmp_int(&XX, 0) == 0 ||
         mbedtls_mpi_cmp_int(&XX, 1) == 0) {
         return MBEDTLS_ERR_MPI_NOT_ACCEPTABLE;
