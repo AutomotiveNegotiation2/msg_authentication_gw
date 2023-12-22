@@ -383,14 +383,6 @@ static void aes_gen_tables(void)
     }
 
     /*
-     * calculate the round constants
-     */
-    for (i = 0, x = 1; i < 10; i++) {
-        RCON[i] = (uint32_t) x;
-        x = MBEDTLS_BYTE_0(XTIME(x));
-    }
-
-    /*
      * generate the forward and reverse S-boxes
      */
     FSb[0x00] = 0x63;
