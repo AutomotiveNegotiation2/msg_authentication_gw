@@ -48,6 +48,9 @@
 
 #include "mbedtls/platform.h"
 
+#define USE_OS_MBED 0
+#define USE_OST_RTOS 1
+
 #if !defined(MBEDTLS_AES_ALT)
 
 #if defined(MBEDTLS_PADLOCK_C) &&                      \
