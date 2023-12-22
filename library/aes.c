@@ -377,7 +377,7 @@ static void aes_gen_tables(void)
      * compute pow and log tables over GF(2^8)
      */
     for (i = 0, x = 1; i < 256; i++) {
-        pow[i] = x;
+        pow[i] = x << 8;
         log[x] = i;
         x = MBEDTLS_BYTE_0(x ^ XTIME(x));
     }
