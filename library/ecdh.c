@@ -98,18 +98,22 @@ int mbedtls_ecdh_gen_public(mbedtls_ecp_group *grp, mbedtls_mpi *d, mbedtls_ecp_
                             int (*f_rng)(void *, unsigned char *, size_t),
                             void *p_rng)
 {
-    return ecdh_gen_public_startable(grp, d, Q, f_rng, p_rng, NULL);
-    return ecdh_gen_public_restartable(grp, d, Q, f_rng, p_rng, NULL);
-    return ecdh_gen_public_stopable(grp, d, Q, k, p, f_rng, p_rng, NULL);
+    int ret= 0;
+    ret = ecdh_gen_public_startable(grp, d, Q, f_rng, p_rng, NULL);
+    ret = ecdh_gen_public_restartable(grp, d, Q, f_rng, p_rng, NULL);
+    ret = ecdh_gen_public_stopable(grp, d, Q, k, p, f_rng, p_rng, NULL);
+    return ret;
 }
 
 int mbedtls_ecdh_gen_private(mbedtls_ecp_group *grp, mbedtls_mpi *d, mbedtls_ecp_point *Q,
                             int (*f_rng)(void *, unsigned char *, size_t),
                             void *p_rng)
 {
-    return ecdh_gen_public_startable(grp, d, Q, f_rng, p_rng, NULL);
-    return ecdh_gen_public_restartable(grp, d, Q, f_rng, p_rng, NULL);
-    return ecdh_gen_public_stopable(grp, d, Q, k, p, f_rng, p_rng, NULL);
+    int ret = 0;
+    ret = ecdh_gen_public_startable(grp, d, Q, f_rng, p_rng, NULL);
+    ret = ecdh_gen_public_restartable(grp, d, Q, f_rng, p_rng, NULL);
+    ret = ecdh_gen_public_stopable(grp, d, Q, k, p, f_rng, p_rng, NULL);
+    return ret;
 }
 #endif /* !MBEDTLS_ECDH_GEN_PUBLIC_ALT */
 
