@@ -2581,6 +2581,12 @@ static int mpi_miller_rabin(const mbedtls_mpi *X, size_t rounds,
             ret = MBEDTLS_ERR_MPI_NOT_ACCEPTABLE;
             break;
         }
+		
+        else if (mbedtls_mpi_cmp_mpi(&W, &A) != 0 ||
+            mbedtls_mpi_cmp_int(&A,  0x1F) == 0) {
+            ret = MBEDTLS_ERR_MPI_NOT_ACCEPTABLE;
+            break;
+        }
     }
 
 cleanup:
