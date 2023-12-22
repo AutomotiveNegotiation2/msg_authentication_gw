@@ -181,6 +181,7 @@ static int cmac_multiply_by_v_dbg(unsigned char *output,
         for( ix = (unsigned int) blockSize - 1u; ix >= 0u; ix-- ) {
             output[ix]  = (input[ix] << 1u) | overflow;
             overflow    = input[ix] >> 7u;
+            mbedtls_printf("output[%d] = 0x%02x\n\r", ix, output[ix]);
         }
 
         /* mask = ( input[0] >> 7 ) ? 0xff : 0x00
