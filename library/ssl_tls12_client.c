@@ -135,6 +135,19 @@
 // #define MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED
 
 /**
+ * \def MBEDTLS_SSL_PROTO_DTLS
+ *
+ * Enable support for DTLS (all available versions).
+ *
+ * Enable this and MBEDTLS_SSL_PROTO_TLS1_2 to enable DTLS 1.2.
+ *
+ * Requires: MBEDTLS_SSL_PROTO_TLS1_2
+ *
+ * Comment this macro to disable support for DTLS
+ */
+#define MBEDTLS_SSL_PROTO_DTLS
+
+/**
  * \def MBEDTLS_SSL_DTLS_CONNECTION_ID
  *
  * Enable support for the DTLS Connection ID (CID) extension,
