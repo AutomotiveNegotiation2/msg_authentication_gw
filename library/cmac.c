@@ -155,9 +155,9 @@ static int cmac_multiply_by_v(unsigned char *output,
     return ret;
 }
 
-static int cmac_multiply_by_v_dbg(unsigned char *output,
-                              const unsigned char *input,
-                              size_t blocksize)
+static int cmac_multiply_by_v_dbg(  unsigned char       *output,
+                                    const unsigned char *input,
+                                    size_t              blocksize)
 {
     const uint8_t           R_128       = 0x87u;
     const uint8_t           R_64        = 0x1Bu;
