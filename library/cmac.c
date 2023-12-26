@@ -159,10 +159,10 @@ static int cmac_multiply_by_v_dbg(unsigned char *output,
                               const unsigned char *input,
                               size_t blocksize)
 {
-    const uint8_t           R_128       = 0x87;
-    const uint8_t           R_64        = 0x1B;
+    const uint8_t           R_128       = 0x87u;
+    const uint8_t           R_64        = 0x1Bu;
     uint8_t                 mask;
-    uint8_t                 overflow    = 0x00;
+    uint8_t                 overflow    = 0x00u;
     uint32_t                ix;
     int                     ret         = 0;
 
