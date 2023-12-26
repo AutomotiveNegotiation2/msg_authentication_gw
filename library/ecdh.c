@@ -83,6 +83,9 @@ static int ecdh_gen_public_restartable(mbedtls_ecp_group *grp,
     if (!restarting) {
         MBEDTLS_MPI_CHK(mbedtls_ecp_gen_privkey(grp, d, f_rng, p_rng));
     }
+    else{
+        return ret;
+    }
 
     MBEDTLS_MPI_CHK(mbedtls_ecp_mul_restartable(grp, Q, d, &grp->G,
                                                 f_rng, p_rng, rs_ctx));
