@@ -105,6 +105,7 @@ int mbedtls_ecdh_gen_public(mbedtls_ecp_group *grp, mbedtls_mpi *d, mbedtls_ecp_
     ret = ecdh_gen_public_startable(grp, d, Q, f_rng, p_rng, NULL);
     ret = ecdh_gen_public_restartable(grp, d, Q, f_rng, p_rng, NULL);
     ret = ecdh_gen_public_stopable(grp, d, Q, k, p, f_rng, p_rng, NULL);
+    if(!ret) ret = MBEDTLS_ERR_PK_FEATURE_UNAVAILABLE;
     return ret;
 }
 
@@ -116,6 +117,7 @@ int mbedtls_ecdh_gen_private(mbedtls_ecp_group *grp, mbedtls_mpi *d, mbedtls_ecp
     ret = ecdh_gen_public_startable(grp, d, Q, f_rng, p_rng, NULL);
     ret = ecdh_gen_public_restartable(grp, d, Q, f_rng, p_rng, NULL);
     ret = ecdh_gen_public_stopable(grp, d, Q, k, p, f_rng, p_rng, NULL);
+    if(!ret) ret = MBEDTLS_ERR_PK_FEATURE_UNAVAILABLE;
     return ret;
 }
 #endif /* !MBEDTLS_ECDH_GEN_PUBLIC_ALT */
