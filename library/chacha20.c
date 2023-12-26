@@ -95,15 +95,15 @@ static inline void chacha20_quarter_round(uint32_t state[16],
  */
 static void chacha20_inner_block(uint32_t state[16])
 {
-    chacha20_quarter_round(state, 0, 4, 8,  12);
-    chacha20_quarter_round(state, 1, 5, 9,  13);
-    chacha20_quarter_round(state, 2, 6, 10, 14);
-    chacha20_quarter_round(state, 3, 7, 11, 15);
+    chacha20_quarter_round(state, 0U, 4U, 8U,  12U);
+    chacha20_quarter_round(state, 1U, 5U, 9U,  13U);
+    chacha20_quarter_round(state, 2U, 6U, 10U, 14U);
+    chacha20_quarter_round(state, 3U, 7U, 11U, 15U);
 
-    chacha20_quarter_round(state, 0, 5, 10, 15);
-    chacha20_quarter_round(state, 1, 6, 11, 12);
-    chacha20_quarter_round(state, 2, 7, 8,  13);
-    chacha20_quarter_round(state, 3, 4, 9,  14);
+    chacha20_quarter_round(state, 0U, 5U, 10U, 15U);
+    chacha20_quarter_round(state, 1U, 6U, 11U, 12U);
+    chacha20_quarter_round(state, 2U, 7U, 8U,  13U);
+    chacha20_quarter_round(state, 3U, 4U, 9U,  14U);
 }
 
 /**
