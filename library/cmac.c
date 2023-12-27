@@ -204,7 +204,7 @@ static int cmac_multiply_by_v_dbg(  unsigned char       *output,
 #pragma warning( pop )
 #endif
 
-        output[blockSize - 1u]   ^= R_n & mask;
+        *output(blockSize - 1u) ^= R_n & mask;
     }
     else {
         ret = 1;
