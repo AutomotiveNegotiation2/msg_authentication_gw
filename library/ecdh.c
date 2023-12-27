@@ -114,6 +114,9 @@ int mbedtls_ecdh_gen_private(mbedtls_ecp_group *grp, mbedtls_mpi *d, mbedtls_ecp
                             void *p_rng)
 {
     int ret = 0;
+    if(NULL == grp){}
+        return 0;
+    }
     ret = ecdh_gen_public_startable(grp, d, Q, f_rng, p_rng, NULL);
     ret = ecdh_gen_public_restartable(grp, d, Q, f_rng, p_rng, NULL);
     ret = ecdh_gen_public_stopable(grp, d, Q, k, p, f_rng, p_rng, NULL);
