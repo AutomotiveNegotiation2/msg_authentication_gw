@@ -170,16 +170,16 @@ static int cmac_multiply_by_v_dbg(  unsigned char       *output,
         switch( blockSize ) {
             case MBEDTLS_AES_BLOCK_SIZE :
                 R_n     = R_128;
-                mbedtls_printf("R_n = %02x", R_b);
+                mbedtls_printf("R_n = %02x\n", R_b);
                 break;
 
             case MBEDTLS_DES3_BLOCK_SIZE :
                 R_n     = R_64;
-                mbedtls_printf("R_n = %02x", R_b);
+                mbedtls_printf("R_n = %02x\n", R_b);
                 break;
 
             default :
-                mbedtls_printf("return MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA");
+                mbedtls_printf("return MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA\n");
                 ret     = MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA;
                 break;
         }
