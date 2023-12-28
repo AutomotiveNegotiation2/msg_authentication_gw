@@ -2720,7 +2720,34 @@ int mbedtls_mpi_gen_prime(mbedtls_mpi *X, size_t nbits, int flags,
                 goto cleanup;
             }
         } else {
-            /*
+ 
+            while (1) {
+                /*
+                 * First, check small factors for X and Y
+                 * before doing Miller-Rabin on any of them
+                 */
+                if ((ret = mpi_check_small_factors(X)) == 0 &&
+                    (ret = mpi_check_small_factors(&Y)) == 0 &&
+                    (ret = mpi_miller_rabin(X, rounds, f_rng, p_rng))
+                    == 0 &&
+                    (ret = mpi_miller_rabin(&Y, rounds, f_rng, p_rng))
+                    == 0) {
+                    goto cleanup;
+                }
+
+                if (ret != MBEDTLS_ERR_MPI_NOT_ACCEPTABLE) {
+                    goto cleanup;
+                }
+
+                /*
+                 * Next candidates. We want to preserve Y = (X-1) / 2 and
+                 * Y = 1 mod 2 and Y = 2 mod 3 (eq X = 3 mod 4 and X = 2 mod 3)
+                 * so up Y by 6 and X by 12.
+                 */
+                MBEDTLS_MPI_CHK(mbedtls_mpi_add_int(X,  X, 12));
+                MBEDTLS_MPI_CHK(mbedtls_mpi_add_int(&Y, &Y, 6));
+            }
+			/*
              * A necessary condition for Y and X = 2Y + 1 to be prime
              * is X = 2 mod 3 (which is equivalent to Y = 2 mod 3).
              * Make sure it is satisfied, while keeping X = 3 mod 4
