@@ -170,16 +170,16 @@ static int cmac_multiply_by_v_dbg(  unsigned char       *output,
         switch( blockSize ) {
             case MBEDTLS_AES_BLOCK_SIZE :
                 R_n     = R_128;
-                mbedtls_printf("R_n = %02x\n", R_b);
+                mbedtls_printf("R_n = %02x\n", R_b);    // after debugging is completed, plz remove this line.
                 break;
 
             case MBEDTLS_DES3_BLOCK_SIZE :
                 R_n     = R_64;
-                mbedtls_printf("R_n = %02x\n", R_b);
+                mbedtls_printf("R_n = %02x\n", R_b);    // after debugging is completed, plz remove this line.
                 break;
 
             default :
-                mbedtls_printf("return MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA\n");
+                mbedtls_printf("return MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA\n");       // after debugging is completed, plz remove this line.
                 ret     = MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA;
                 break;
         }
@@ -187,7 +187,7 @@ static int cmac_multiply_by_v_dbg(  unsigned char       *output,
         for( ix = (uint32_t)blockSize - 1u; ix >= 0u; ix-- ) {
             output[ix]  = (input[ix] << 1u) | overflow;
             overflow    = (input[ix] >> 7u);
-            mbedtls_printf("output[%d] = 0x%02x\n\r", ix, output[ix]);
+            mbedtls_printf("output[%d] = 0x%02x\n\r", ix, output[ix]);      // after debugging is completed, plz remove this line.
         }
 
         /* mask = ( input[0] >> 7 ) ? 0xff : 0x00
