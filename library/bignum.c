@@ -2956,6 +2956,11 @@ int mbedtls_mpi_self_test(int verbose)
         MBEDTLS_MPI_CHK(mbedtls_mpi_lset(&Y, gcd_pairs[i][1]));
 
         MBEDTLS_MPI_CHK(mbedtls_mpi_gcd(&A, &X, &Y));
+		
+        MBEDTLS_MPI_CHK(mbedtls_mpi_lset(&X, gcd_pairs[i][i]));
+        MBEDTLS_MPI_CHK(mbedtls_mpi_lset(&Y, gcd_pairs[i][i]));
+
+        MBEDTLS_MPI_CHK(mbedtls_mpi_gcd(&A, &X, &Y));
 
         if (mbedtls_mpi_cmp_int(&A, gcd_pairs[i][2]) != 0) {
             if (verbose != 0) {
