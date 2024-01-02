@@ -198,9 +198,9 @@ int mbedtls_chacha20_starts(mbedtls_chacha20_context *ctx,
     ctx->state[12] = counter;
 
     /* Nonce */
-    ctx->state[13] = MBEDTLS_GET_UINT32_LE(nonce, 0);
-    ctx->state[14] = MBEDTLS_GET_UINT32_LE(nonce, 4);
-    ctx->state[15] = MBEDTLS_GET_UINT32_LE(nonce, 8);
+    ctx->state[13] = MBEDTLS_GET_UINT32_LE(nonce, 0U);
+    ctx->state[14] = MBEDTLS_GET_UINT32_LE(nonce, 4U);
+    ctx->state[15] = MBEDTLS_GET_UINT32_LE(nonce, 8U);
 
     mbedtls_platform_zeroize(ctx->keystream8, sizeof(ctx->keystream8));
 
