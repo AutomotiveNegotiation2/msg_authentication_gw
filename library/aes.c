@@ -588,31 +588,6 @@ int mbedtls_aes_setkey_enc(mbedtls_aes_context *ctx, const unsigned char *key,
                 RK[11] = RK[5] ^ RK[10];
             }
             break;
-
-        case 14:
-
-            for (i = 0; i < 7; i++, RK += 8) {
-                RK[8]  = RK[0] ^ RCON[i] ^
-                         ((uint32_t) FSb[MBEDTLS_BYTE_1(RK[7])]) ^
-                         ((uint32_t) FSb[MBEDTLS_BYTE_2(RK[7])] <<  8) ^
-                         ((uint32_t) FSb[MBEDTLS_BYTE_3(RK[7])] << 16) ^
-                         ((uint32_t) FSb[MBEDTLS_BYTE_0(RK[7])] << 24);
-
-                RK[9]  = RK[1] ^ RK[8];
-                RK[10] = RK[2] ^ RK[9];
-                RK[11] = RK[3] ^ RK[10];
-
-                RK[12] = RK[4] ^
-                         ((uint32_t) FSb[MBEDTLS_BYTE_0(RK[11])]) ^
-                         ((uint32_t) FSb[MBEDTLS_BYTE_1(RK[11])] <<  8) ^
-                         ((uint32_t) FSb[MBEDTLS_BYTE_2(RK[11])] << 16) ^
-                         ((uint32_t) FSb[MBEDTLS_BYTE_3(RK[11])] << 24);
-
-                RK[13] = RK[5] ^ RK[12];
-                RK[14] = RK[6] ^ RK[13];
-                RK[15] = RK[7] ^ RK[14];
-            }
-            break;
     }
 
     return 0;
