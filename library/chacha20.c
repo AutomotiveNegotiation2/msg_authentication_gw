@@ -178,14 +178,14 @@ int mbedtls_chacha20_setkey(mbedtls_chacha20_context *ctx,
     ctx->state[3] = 0x6b206574;
 
     /* Set key */
-    ctx->state[4]  = MBEDTLS_GET_UINT32_LE(key, 0);
-    ctx->state[5]  = MBEDTLS_GET_UINT32_LE(key, 4);
-    ctx->state[6]  = MBEDTLS_GET_UINT32_LE(key, 8);
-    ctx->state[7]  = MBEDTLS_GET_UINT32_LE(key, 12);
-    ctx->state[8]  = MBEDTLS_GET_UINT32_LE(key, 16);
-    ctx->state[9]  = MBEDTLS_GET_UINT32_LE(key, 20);
-    ctx->state[10] = MBEDTLS_GET_UINT32_LE(key, 24);
-    ctx->state[11] = MBEDTLS_GET_UINT32_LE(key, 28);
+    ctx->state[4]  = MBEDTLS_GET_UINT32_LE(key, 0U);
+    ctx->state[5]  = MBEDTLS_GET_UINT32_LE(key, 4U);
+    ctx->state[6]  = MBEDTLS_GET_UINT32_LE(key, 8U);
+    ctx->state[7]  = MBEDTLS_GET_UINT32_LE(key, 12U);
+    ctx->state[8]  = MBEDTLS_GET_UINT32_LE(key, 16U);
+    ctx->state[9]  = MBEDTLS_GET_UINT32_LE(key, 20U);
+    ctx->state[10] = MBEDTLS_GET_UINT32_LE(key, 24U);
+    ctx->state[11] = MBEDTLS_GET_UINT32_LE(key, 28U);
 
     return 0;
 }
