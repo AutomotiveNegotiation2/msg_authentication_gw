@@ -205,7 +205,7 @@ void mbedtls_ecdh_init(mbedtls_ecdh_context *ctx)
 #endif
     ctx->point_format = MBEDTLS_ECP_PF_UNCOMPRESSED;
 #if defined(MBEDTLS_ECP_RESTARTABLE)
-    ctx->restart_enabled = 2;
+    ctx->restart_enabled = 10;
 #endif
 }
 
