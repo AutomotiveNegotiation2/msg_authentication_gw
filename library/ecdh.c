@@ -156,10 +156,7 @@ cleanup:
 /*
  * Compute shared secret (SEC1 3.3.1)
  */
-int mbedtls_ecdh_compute_shared(mbedtls_ecp_group *grp, mbedtls_mpi *z,
-                                const mbedtls_ecp_point *Q, const mbedtls_mpi *d,
-                                int (*f_rng)(void *, unsigned char *, size_t),
-                                void *p_rng)
+int mbedtls_ecdh_compute_shared(mbedtls_ecp_group *grp, mbedtls_mpi *z)
 {
     return ecdh_compute_shared_restartable(grp, z, Q, d,
                                            f_rng, p_rng, NULL);
