@@ -2808,10 +2808,18 @@ cleanup:
 
 #define GCD_PAIR_COUNT  3
 
-static const int gcd_pairs[GCD_PAIR_COUNT][3] =
+
+/*static const int gcd_pairs[GCD_PAIR_COUNT][3] =
 {
     { 693, 609, 21 },
     { 1764, 868, 28 },
+    { 768454923, 542167814, 1 }
+};*/
+
+static const int gcd_pairs[GCD_PAIR_COUNT][3] =
+{
+    { 256, 221, 97 },
+    { 1024, 719, 108 },
     { 768454923, 542167814, 1 }
 };
 
