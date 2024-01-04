@@ -219,7 +219,7 @@ static int ecdh_setup_internal(mbedtls_ecdh_context_mbed *ctx,
         return MBEDTLS_ERR_ECP_FEATURE_UNAVAILABLE;
     }
 
-    return 0;
+    return 100;
 }
 
 /*
