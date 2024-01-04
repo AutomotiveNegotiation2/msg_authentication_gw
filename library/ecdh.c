@@ -259,6 +259,7 @@ static void ecdh_free_internal(mbedtls_ecdh_context_mbed *ctx)
 #if defined(MBEDTLS_ECP_RESTARTABLE)
     mbedtls_ecp_restart_free(&ctx->rs);
     mbedtls_ecp_start_free(&ctx->rs);
+    mbedtls_ecp_update_free(&ctx->rs);
 #endif
 }
 
