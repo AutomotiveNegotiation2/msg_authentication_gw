@@ -254,14 +254,16 @@ int mbedtls_ccm_set_lengths(mbedtls_ccm_context *ctx,
     if (total_ad_len >= 0xFF00) {
         return MBEDTLS_ERR_CCM_BAD_INPUT;
     }
+	else
+	{
+		ctx->plaintext_len = plaintext_len;
+		ctx->add_len = total_ad_len;
+		ctx->tag_len = tag_len;
+		ctx->processed = 0;
 
-    ctx->plaintext_len = plaintext_len;
-    ctx->add_len = total_ad_len;
-    ctx->tag_len = tag_len;
-    ctx->processed = 0;
-
-    ctx->state |= CCM_STATE__LENGTHS_SET;
-    return ccm_calculate_first_block_if_ready(ctx);
+		ctx->state |= CCM_STATE__LENGTHS_SET;
+		return ccm_calculate_first_block_if_ready(ctx);
+	}
 }
 
 int mbedtls_ccm_update_ad(mbedtls_ccm_context *ctx,
