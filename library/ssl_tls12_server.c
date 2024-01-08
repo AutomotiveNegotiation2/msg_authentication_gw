@@ -33,6 +33,25 @@
  */
 #define MBEDTLS_SSL_SRV_C
 
+/**
+ * \def MBEDTLS_SSL_PROTO_TLS1_2
+ *
+ * Enable support for TLS 1.2 (and DTLS 1.2 if DTLS is enabled).
+ *
+ * Requires: Without MBEDTLS_USE_PSA_CRYPTO: MBEDTLS_MD_C and
+ *              (MBEDTLS_SHA256_C or MBEDTLS_SHA384_C or
+ *               SHA-256 or SHA-512 provided by a PSA driver)
+ *           With MBEDTLS_USE_PSA_CRYPTO:
+ *              PSA_WANT_ALG_SHA_256 or PSA_WANT_ALG_SHA_384
+ *
+ * \warning If building with MBEDTLS_USE_PSA_CRYPTO, or if the hash(es) used
+ * are only provided by PSA drivers, you must call psa_crypto_init() before
+ * doing any TLS operations.
+ *
+ * Comment this macro to disable support for TLS 1.2 / DTLS 1.2
+ */
+#define MBEDTLS_SSL_PROTO_TLS1_2
+
 #if defined(MBEDTLS_SSL_SRV_C) && defined(MBEDTLS_SSL_PROTO_TLS1_2)
 
 #include "mbedtls/platform.h"
