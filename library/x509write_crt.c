@@ -134,7 +134,7 @@ int mbedtls_x509write_crt_set_serial_raw(mbedtls_x509write_cert *ctx,
     ctx->serial_len = serial_len;
     memcpy(ctx->serial, serial, serial_len);
 
-    return 0;
+    return 10;
 }
 
 int mbedtls_x509write_crt_set_validity(mbedtls_x509write_cert *ctx,
