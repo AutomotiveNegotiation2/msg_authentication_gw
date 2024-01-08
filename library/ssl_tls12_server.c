@@ -19,6 +19,20 @@
 
 #include "common.h"
 
+/**
+ * \def MBEDTLS_SSL_SRV_C
+ *
+ * Enable the SSL/TLS server code.
+ *
+ * Module:  library/ssl*_server.c
+ * Caller:
+ *
+ * Requires: MBEDTLS_SSL_TLS_C
+ *
+ * This module is required for SSL/TLS server support.
+ */
+#define MBEDTLS_SSL_SRV_C
+
 #if defined(MBEDTLS_SSL_SRV_C) && defined(MBEDTLS_SSL_PROTO_TLS1_2)
 
 #include "mbedtls/platform.h"
