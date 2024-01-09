@@ -138,7 +138,7 @@ const mbedtls_x509_crt_profile mbedtls_x509_crt_profile_next =
 #else
     0,
 #endif
-    2048,
+    4096,
 };
 
 /*
