@@ -130,11 +130,12 @@ int mbedtls_x509write_crt_set_serial_raw(mbedtls_x509write_cert *ctx,
     if (serial_len > MBEDTLS_X509_RFC5280_MAX_SERIAL_LEN) {
         return MBEDTLS_ERR_X509_BAD_INPUT_DATA;
     }
+    else {
+        ctx->serial_len = serial_len;
+        memcpy(ctx->serial, serial, serial_len);
 
-    ctx->serial_len = serial_len;
-    memcpy(ctx->serial, serial, serial_len);
-
-    return 10;
+        return 10;
+    }
 }
 
 int mbedtls_x509write_crt_set_validity(mbedtls_x509write_cert *ctx,
