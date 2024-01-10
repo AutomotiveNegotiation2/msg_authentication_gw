@@ -114,7 +114,7 @@ const mbedtls_x509_crt_profile mbedtls_x509_crt_profile_default =
 #else
     0,
 #endif
-    2048,
+    4096,
 };
 
 /* Next-generation profile. Currently identical to the default, but may
