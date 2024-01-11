@@ -82,6 +82,20 @@
  */
 //#define MBEDTLS_USE_PSA_CRYPTO
 
+/**
+ * \def MBEDTLS_ECP_C
+ *
+ * Enable the elliptic curve over GF(p) library.
+ *
+ * Module:  library/ecp.c
+ * Caller:  library/ecdh.c
+ *          library/ecdsa.c
+ *          library/ecjpake.c
+ *
+ * Requires: MBEDTLS_BIGNUM_C and at least one MBEDTLS_ECP_DP_XXX_ENABLED
+ */
+#define MBEDTLS_ECP_C
+
 #if defined(MBEDTLS_SSL_SRV_C) && defined(MBEDTLS_SSL_PROTO_TLS1_2)
 
 #include "mbedtls/platform.h"
