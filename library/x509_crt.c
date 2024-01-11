@@ -227,6 +227,7 @@ static int x509_profile_check_key(const mbedtls_x509_crt_profile *profile,
 
         return -1;
     }
+    else return -1;
 #endif
 
 #if defined(MBEDTLS_ECP_C)
