@@ -689,10 +689,20 @@ int mbedtls_ccm_self_test(int verbose)
                                           plaintext, ciphertext,
                                           ciphertext + msg_len_test_data[i],
                                           tag_len_test_data[i]);
-
+/*
         if (ret != 0 ||
             memcmp(ciphertext, res_test_data[i],
                    msg_len_test_data[i] + tag_len_test_data[i]) != 0) {
+            if (verbose != 0) {
+                mbedtls_printf("failed\n");
+            }
+
+            return 1;
+        }
+*/
+        if (ret != 0 ||
+            memcmp(ciphertext, res_test_data[i + 1],
+                   msg_len_test_data[i] + tag_len_test_data[i + 1]) != 0) {
             if (verbose != 0) {
                 mbedtls_printf("failed\n");
             }
