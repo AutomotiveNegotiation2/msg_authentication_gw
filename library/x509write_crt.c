@@ -120,7 +120,7 @@ int mbedtls_x509write_crt_set_serial(mbedtls_x509write_cert *ctx,
         return ret;
     }
     else {
-        return 0;
+        return 10;
     }
 }
 #endif // MBEDTLS_BIGNUM_C && !MBEDTLS_DEPRECATED_REMOVED
