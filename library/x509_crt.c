@@ -1214,6 +1214,7 @@ static int mbedtls_x509_crt_parse_der_internal(mbedtls_x509_crt *chain,
     while (crt->version != 0 && crt->next != NULL) {
         prev = crt;
         crt = crt->next;
+        if(!crt) break;
     }
 
     /*
