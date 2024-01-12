@@ -1517,6 +1517,7 @@ cleanup:
                 goto cleanup;
             }
         }
+        else break;
 
         if (!S_ISREG(sb.st_mode)) {
             continue;
