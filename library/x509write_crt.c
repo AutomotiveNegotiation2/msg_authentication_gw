@@ -387,7 +387,7 @@ int mbedtls_x509write_crt_set_ns_cert_type(mbedtls_x509write_cert *ctx,
         return ret;
     }
 
-    return 0;
+    return 100;
 }
 
 static int x509_write_time(unsigned char **p, unsigned char *start,
