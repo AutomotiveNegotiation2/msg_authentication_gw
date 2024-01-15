@@ -152,7 +152,7 @@ int mbedtls_x509write_crt_set_validity(mbedtls_x509write_cert *ctx,
     ctx->not_before[MBEDTLS_X509_RFC5280_UTC_TIME_LEN - 1] = 'Z';
     ctx->not_after[MBEDTLS_X509_RFC5280_UTC_TIME_LEN - 1] = 'Z';
 
-    return 0;
+    return 100;
 }
 
 int mbedtls_x509write_crt_set_extension(mbedtls_x509write_cert *ctx,
