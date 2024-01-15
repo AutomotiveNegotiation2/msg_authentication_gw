@@ -86,10 +86,11 @@ cleanup:
     return ret;
 }
 
-int mbedtls_ssl_tls13_fetch_handshake_msg_test(mbedtls_ssl_context *ssl,
-                                          unsigned hs_type,
-                                          unsigned char **buf,
-                                          size_t *buf_len)
+int mbedtls_ssl_tls13_fetch_handshake_msg_test(
+        mbedtls_ssl_context     *ssl,
+        unsigned                hs_type,
+        unsigned char           **buf,
+        size_t                  *buf_len)
 {
     int ret;
 
