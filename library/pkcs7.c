@@ -192,6 +192,10 @@ static int pkcs7_get_certificates(unsigned char **p, unsigned char *end,
     size_t len2 = 0;
     unsigned char *end_set, *end_cert, *start;
 
+    if(certs == NULL)
+    {
+        return MBEDTLS_ERR_PKCS7_INVALID_CERT;
+    }
     ret = mbedtls_asn1_get_tag(p, end, &len1, MBEDTLS_ASN1_CONSTRUCTED
                                | MBEDTLS_ASN1_CONTEXT_SPECIFIC);
     if (ret == MBEDTLS_ERR_ASN1_UNEXPECTED_TAG) {
