@@ -126,22 +126,22 @@ static void chacha20_block(const uint32_t initial_state[16],
         chacha20_inner_block(working_state);
     }
 
-    working_state[0]  += initial_state[0];
-    working_state[1]  += initial_state[1];
-    working_state[2]  += initial_state[2];
-    working_state[3]  += initial_state[3];
-    working_state[4]  += initial_state[4];
-    working_state[5]  += initial_state[5];
-    working_state[6]  += initial_state[6];
-    working_state[7]  += initial_state[7];
-    working_state[8]  += initial_state[8];
-    working_state[9]  += initial_state[9];
-    working_state[10] += initial_state[10];
-    working_state[11] += initial_state[11];
-    working_state[12] += initial_state[12];
-    working_state[13] += initial_state[13];
-    working_state[14] += initial_state[14];
-    working_state[15] += initial_state[15];
+    working_state[0]  = working_state[0]  + initial_state[0];
+    working_state[1]  = working_state[1]  + initial_state[1];
+    working_state[2]  = working_state[2]  + initial_state[2];
+    working_state[3]  = working_state[3]  + initial_state[3];
+    working_state[4]  = working_state[4]  + initial_state[4];
+    working_state[5]  = working_state[5]  + initial_state[5];
+    working_state[6]  = working_state[6]  + initial_state[6];
+    working_state[7]  = working_state[7]  + initial_state[7];
+    working_state[8]  = working_state[8]  + initial_state[8];
+    working_state[9]  = working_state[9]  + initial_state[9];
+    working_state[10] = working_state[10] + initial_state[10];
+    working_state[11] = working_state[11] + initial_state[11];
+    working_state[12] = working_state[12] + initial_state[12];
+    working_state[13] = working_state[13] + initial_state[13];
+    working_state[14] = working_state[14] + initial_state[14];
+    working_state[15] = working_state[15] + initial_state[15];
 
     for (i = 0U; i < 16U; i++) {
         size_t offset = i * 4U;
