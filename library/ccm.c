@@ -295,6 +295,8 @@ int mbedtls_ccm_update_ad(mbedtls_ccm_context *ctx,
             return MBEDTLS_ERR_CCM_BAD_INPUT;
         }
 
+#if 0
+
         while (add_len > 0) {
             offset = (ctx->processed + 2) % 16; /* account for y[0] and y[1]
                                                  * holding total auth data length */
@@ -318,6 +320,34 @@ int mbedtls_ccm_update_ad(mbedtls_ccm_context *ctx,
                 }
             }
         }
+		
+#else
+	
+        while (add_len > 0) {
+            offset = ctx->processed % 16; /* account for y[0] and y[1]
+                                                 * holding total auth data length */
+            use_len = 16 - offset;
+
+            if (use_len > add_len) {
+                use_len = add_len;
+            }
+
+            mbedtls_xor(ctx->y + offset, ctx->y + offset, add, use_len);
+
+            ctx->processed += use_len;
+            add_len -= use_len;
+            add += use_len;
+
+            if (use_len + offset == 16 || ctx->processed == ctx->add_len) {
+                if ((ret =
+                         mbedtls_cipher_update(&ctx->cipher_ctx, ctx->y, 16, ctx->y, &olen)) != 0) {
+                    ctx->state |= CCM_STATE__ERROR;
+                    return ret;
+                }
+            }
+        }
+		
+#endif
 
         if (ctx->processed == ctx->add_len) {
             ctx->state |= CCM_STATE__AUTH_DATA_FINISHED;
