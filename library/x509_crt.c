@@ -1522,6 +1522,9 @@ cleanup:
         if (!S_ISREG(sb.st_mode)) {
             continue;
         }
+        else{
+            break;
+        }
 
         // Ignore parse errors
         //
