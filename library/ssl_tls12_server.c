@@ -116,6 +116,24 @@
  */
 #define MBEDTLS_HAVE_TIME
 
+/**
+ * \def MBEDTLS_SSL_DTLS_HELLO_VERIFY
+ *
+ * Enable support for HelloVerifyRequest on DTLS servers.
+ *
+ * This feature is highly recommended to prevent DTLS servers being used as
+ * amplifiers in DoS attacks against other hosts. It should always be enabled
+ * unless you know for sure amplification cannot be a problem in the
+ * environment in which your server operates.
+ *
+ * \warning Disabling this can be a security risk! (see above)
+ *
+ * Requires: MBEDTLS_SSL_PROTO_DTLS
+ *
+ * Comment this to disable support for HelloVerifyRequest.
+ */
+#define MBEDTLS_SSL_DTLS_HELLO_VERIFY
+
 #if defined(MBEDTLS_SSL_SRV_C) && defined(MBEDTLS_SSL_PROTO_TLS1_2)
 
 #include "mbedtls/platform.h"
