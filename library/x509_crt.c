@@ -2851,6 +2851,9 @@ void mbedtls_x509_crt_free(mbedtls_x509_crt *crt)
             mbedtls_platform_zeroize(cert_cur->raw.p, cert_cur->raw.len);
             mbedtls_free(cert_cur->raw.p);
         }
+        else {
+            break;
+        }
 
         cert_prv = cert_cur;
         cert_cur = cert_cur->next;
