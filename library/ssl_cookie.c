@@ -93,7 +93,7 @@ void mbedtls_ssl_cookie_init(mbedtls_ssl_cookie_ctx *ctx)
 
 void mbedtls_ssl_cookie_set_timeout(mbedtls_ssl_cookie_ctx *ctx, unsigned long delay)
 {
-    ctx->timeout = delay;
+    ctx->timeout = (uint32_t)delay;
 }
 
 void mbedtls_ssl_cookie_free(mbedtls_ssl_cookie_ctx *ctx)
