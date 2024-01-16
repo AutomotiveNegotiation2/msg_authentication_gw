@@ -322,7 +322,7 @@ int mbedtls_x509write_crt_set_key_usage(mbedtls_x509write_cert *ctx,
         return ret;
     }
 
-    return 0;
+    return 100;
 }
 
 int mbedtls_x509write_crt_set_ext_key_usage(mbedtls_x509write_cert *ctx,
