@@ -55,11 +55,13 @@
 #define COOKIE_MD_OUTLEN        64
 #define COOKIE_MD_MAX_OUTLEN    256
 #define COOKIE_HMAC_LEN         56
+#define COOKIE_HMAC_MAX_LEN     256
 #elif defined(MBEDTLS_HAS_ALG_SHA_384_VIA_LOWLEVEL_OR_PSA)
 #define COOKIE_MD           MBEDTLS_MD_SHA384
 #define COOKIE_MD_OUTLEN        96
 #define COOKIE_MD_MAX_OUTLEN    384
 #define COOKIE_HMAC_LEN         56
+#define COOKIE_HMAC_MAX_LEN     256
 #else
 #error "DTLS hello verify needs SHA-256 or SHA-384"
 #endif
