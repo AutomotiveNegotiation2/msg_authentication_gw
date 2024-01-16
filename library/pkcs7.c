@@ -74,6 +74,10 @@ static int pkcs7_get_version(unsigned char **p, unsigned char *end, int *ver)
 {
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
 
+    if(p == NULL || end == NULL || ver == NULL)
+    {
+        return -1;
+    }
     ret = mbedtls_asn1_get_int(p, end, ver);
     if (ret != 0) {
         ret = MBEDTLS_ERROR_ADD(MBEDTLS_ERR_PKCS7_INVALID_VERSION, ret);
