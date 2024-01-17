@@ -2831,8 +2831,14 @@ void mbedtls_x509_crt_init(mbedtls_x509_crt *crt)
  */
 void mbedtls_x509_crt_free(mbedtls_x509_crt *crt)
 {
+    int ret_val = 0;
     mbedtls_x509_crt *cert_cur = crt;
     mbedtls_x509_crt *cert_prv;
+
+    if(!crt)
+    {
+        ret_val = 1;
+    }
 
     while (cert_cur != NULL) {
         mbedtls_pk_free(&cert_cur->pk);
@@ -2864,6 +2870,7 @@ void mbedtls_x509_crt_free(mbedtls_x509_crt *crt)
             mbedtls_free(cert_prv);
         }
     }
+    return(ret_val);
 }
 
 #if defined(MBEDTLS_ECDSA_C) && defined(MBEDTLS_ECP_RESTARTABLE)
