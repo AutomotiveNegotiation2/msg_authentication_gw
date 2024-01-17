@@ -19,6 +19,358 @@
 
 #include "common.h"
 
+/**
+ * \def MBEDTLS_SSL_CLI_C
+ *
+ * Enable the SSL/TLS client code.
+ *
+ * Module:  library/ssl*_client.c
+ * Caller:
+ *
+ * Requires: MBEDTLS_SSL_TLS_C
+ *
+ * This module is required for SSL/TLS client support.
+ */
+#define MBEDTLS_SSL_CLI_C
+
+/**
+ * \def MBEDTLS_SSL_PROTO_TLS1_2
+ *
+ * Enable support for TLS 1.2 (and DTLS 1.2 if DTLS is enabled).
+ *
+ * Requires: Without MBEDTLS_USE_PSA_CRYPTO: MBEDTLS_MD_C and
+ *              (MBEDTLS_SHA1_C or MBEDTLS_SHA256_C or MBEDTLS_SHA512_C)
+ *           With MBEDTLS_USE_PSA_CRYPTO:
+ *              PSA_WANT_ALG_SHA_1 or PSA_WANT_ALG_SHA_256 or
+ *              PSA_WANT_ALG_SHA_512
+ *
+ * \warning If building with MBEDTLS_USE_PSA_CRYPTO, you must call
+ * psa_crypto_init() before doing any TLS operations.
+ *
+ * Comment this macro to disable support for TLS 1.2 / DTLS 1.2
+ */
+#define MBEDTLS_SSL_PROTO_TLS1_2
+
+/**
+ * \def MBEDTLS_ECDH_C
+ *
+ * Enable the elliptic curve Diffie-Hellman library.
+ *
+ * Module:  library/ecdh.c
+ * Caller:  library/psa_crypto.c
+ *          library/ssl_tls.c
+ *          library/ssl*_client.c
+ *          library/ssl*_server.c
+ *
+ * This module is used by the following key exchanges:
+ *      ECDHE-ECDSA, ECDHE-RSA, DHE-PSK
+ *
+ * Requires: MBEDTLS_ECP_C
+ */
+#define MBEDTLS_ECDH_C
+
+
+/**
+ * \def MBEDTLS_USE_PSA_CRYPTO
+ *
+ * Make the X.509 and TLS library use PSA for cryptographic operations, and
+ * enable new APIs for using keys handled by PSA Crypto.
+ *
+ * \note Development of this option is currently in progress, and parts of Mbed
+ * TLS's X.509 and TLS modules are not ported to PSA yet. However, these parts
+ * will still continue to work as usual, so enabling this option should not
+ * break backwards compatibility.
+ *
+ * \note See docs/use-psa-crypto.md for a complete description of what this
+ * option currently does, and of parts that are not affected by it so far.
+ *
+ * \warning If you enable this option, you need to call `psa_crypto_init()`
+ * before calling any function from the SSL/TLS, X.509 or PK modules.
+ *
+ * Requires: MBEDTLS_PSA_CRYPTO_C.
+ *
+ * Uncomment this to enable internal use of PSA Crypto and new associated APIs.
+ */
+//#define MBEDTLS_USE_PSA_CRYPTO
+
+/**
+ * \def MBEDTLS_SSL_RENEGOTIATION
+ *
+ * Enable support for TLS renegotiation.
+ *
+ * The two main uses of renegotiation are (1) refresh keys on long-lived
+ * connections and (2) client authentication after the initial handshake.
+ * If you don't need renegotiation, it's probably better to disable it, since
+ * it has been associated with security issues in the past and is easy to
+ * misuse/misunderstand.
+ *
+ * Comment this to disable support for renegotiation.
+ *
+ * \note   Even if this option is disabled, both client and server are aware
+ *         of the Renegotiation Indication Extension (RFC 5746) used to
+ *         prevent the SSL renegotiation attack (see RFC 5746 Sect. 1).
+ *         (See \c mbedtls_ssl_conf_legacy_renegotiation for the
+ *          configuration of this extension).
+ *
+ */
+#define MBEDTLS_SSL_RENEGOTIATION
+
+/**
+ * \def MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED
+ *
+ * Enable the ECJPAKE based ciphersuite modes in SSL / TLS.
+ *
+ * \warning This is currently experimental. EC J-PAKE support is based on the
+ * Thread v1.0.0 specification; incompatible changes to the specification
+ * might still happen. For this reason, this is disabled by default.
+ *
+ * Requires: MBEDTLS_ECJPAKE_C
+ *           SHA-256 (via MD if present, or via PSA, see MBEDTLS_ECJPAKE_C)
+ *           MBEDTLS_ECP_DP_SECP256R1_ENABLED
+ *
+ * This enables the following ciphersuites (if other requisites are
+ * enabled as well):
+ *      MBEDTLS_TLS_ECJPAKE_WITH_AES_128_CCM_8
+ */
+// #define MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED
+
+/**
+ * \def MBEDTLS_SSL_PROTO_DTLS
+ *
+ * Enable support for DTLS (all available versions).
+ *
+ * Enable this and MBEDTLS_SSL_PROTO_TLS1_2 to enable DTLS 1.2.
+ *
+ * Requires: MBEDTLS_SSL_PROTO_TLS1_2
+ *
+ * Comment this macro to disable support for DTLS
+ */
+#define MBEDTLS_SSL_PROTO_DTLS
+
+/**
+ * \def MBEDTLS_SSL_DTLS_CONNECTION_ID
+ *
+ * Enable support for the DTLS Connection ID (CID) extension,
+ * which allows to identify DTLS connections across changes
+ * in the underlying transport. The CID functionality is described
+ * in RFC 9146.
+ *
+ * Setting this option enables the SSL APIs `mbedtls_ssl_set_cid()`,
+ * mbedtls_ssl_get_own_cid()`, `mbedtls_ssl_get_peer_cid()` and
+ * `mbedtls_ssl_conf_cid()`. See the corresponding documentation for
+ * more information.
+ *
+ * The maximum lengths of outgoing and incoming CIDs can be configured
+ * through the options
+ * - MBEDTLS_SSL_CID_OUT_LEN_MAX
+ * - MBEDTLS_SSL_CID_IN_LEN_MAX.
+ *
+ * Requires: MBEDTLS_SSL_PROTO_DTLS
+ *
+ * Uncomment to enable the Connection ID extension.
+ */
+#define MBEDTLS_SSL_DTLS_CONNECTION_ID
+
+/**
+ * \def MBEDTLS_SSL_MAX_FRAGMENT_LENGTH
+ *
+ * Enable support for RFC 6066 max_fragment_length extension in SSL.
+ *
+ * Comment this macro to disable support for the max_fragment_length extension
+ */
+#define MBEDTLS_SSL_MAX_FRAGMENT_LENGTH
+
+/** \def MBEDTLS_SSL_ENCRYPT_THEN_MAC
+ *
+ * Enable support for Encrypt-then-MAC, RFC 7366.
+ *
+ * This allows peers that both support it to use a more robust protection for
+ * ciphersuites using CBC, providing deep resistance against timing attacks
+ * on the padding or underlying cipher.
+ *
+ * This only affects CBC ciphersuites, and is useless if none is defined.
+ *
+ * Requires: MBEDTLS_SSL_PROTO_TLS1_2
+ *
+ * Comment this macro to disable support for Encrypt-then-MAC
+ */
+#define MBEDTLS_SSL_ENCRYPT_THEN_MAC
+
+/** \def MBEDTLS_SSL_EXTENDED_MASTER_SECRET
+ *
+ * Enable support for RFC 7627: Session Hash and Extended Master Secret
+ * Extension.
+ *
+ * This was introduced as "the proper fix" to the Triple Handshake family of
+ * attacks, but it is recommended to always use it (even if you disable
+ * renegotiation), since it actually fixes a more fundamental issue in the
+ * original SSL/TLS design, and has implications beyond Triple Handshake.
+ *
+ * Requires: MBEDTLS_SSL_PROTO_TLS1_2
+ *
+ * Comment this macro to disable support for Extended Master Secret.
+ */
+#define MBEDTLS_SSL_EXTENDED_MASTER_SECRET
+
+/**
+ * \def MBEDTLS_SSL_SESSION_TICKETS
+ *
+ * Enable support for RFC 5077 session tickets in SSL.
+ * Client-side, provides full support for session tickets (maintenance of a
+ * session store remains the responsibility of the application, though).
+ * Server-side, you also need to provide callbacks for writing and parsing
+ * tickets, including authenticated encryption and key management. Example
+ * callbacks are provided by MBEDTLS_SSL_TICKET_C.
+ *
+ * Comment this macro to disable support for SSL session tickets
+ */
+#define MBEDTLS_SSL_SESSION_TICKETS
+
+/**
+ * \def MBEDTLS_SSL_DTLS_SRTP
+ *
+ * Enable support for negotiation of DTLS-SRTP (RFC 5764)
+ * through the use_srtp extension.
+ *
+ * \note This feature provides the minimum functionality required
+ * to negotiate the use of DTLS-SRTP and to allow the derivation of
+ * the associated SRTP packet protection key material.
+ * In particular, the SRTP packet protection itself, as well as the
+ * demultiplexing of RTP and DTLS packets at the datagram layer
+ * (see Section 5 of RFC 5764), are not handled by this feature.
+ * Instead, after successful completion of a handshake negotiating
+ * the use of DTLS-SRTP, the extended key exporter API
+ * mbedtls_ssl_conf_export_keys_cb() should be used to implement
+ * the key exporter described in Section 4.2 of RFC 5764 and RFC 5705
+ * (this is implemented in the SSL example programs).
+ * The resulting key should then be passed to an SRTP stack.
+ *
+ * Setting this option enables the runtime API
+ * mbedtls_ssl_conf_dtls_srtp_protection_profiles()
+ * through which the supported DTLS-SRTP protection
+ * profiles can be configured. You must call this API at
+ * runtime if you wish to negotiate the use of DTLS-SRTP.
+ *
+ * Requires: MBEDTLS_SSL_PROTO_DTLS
+ *
+ * Uncomment this to enable support for use_srtp extension.
+ */
+//#define MBEDTLS_SSL_DTLS_SRTP
+
+#define MBEDTLS_SSL_DTLS_SRTP_MKI_UNSUPPORTED    0
+#define MBEDTLS_SSL_DTLS_SRTP_MKI_SUPPORTED      1
+
+/**
+ * \def MBEDTLS_DEBUG_C
+ *
+ * Enable the debug functions.
+ *
+ * Module:  library/debug.c
+ * Caller:  library/ssl_msg.c
+ *          library/ssl_tls.c
+ *          library/ssl_tls12_*.c
+ *          library/ssl_tls13_*.c
+ *
+ * This module provides debugging functions.
+ */
+#define MBEDTLS_DEBUG_C
+
+/**
+ * \def MBEDTLS_SSL_VARIABLE_BUFFER_LENGTH
+ *
+ * When this option is enabled, the SSL buffer will be resized automatically
+ * based on the negotiated maximum fragment length in each direction.
+ *
+ * Requires: MBEDTLS_SSL_MAX_FRAGMENT_LENGTH
+ */
+//#define MBEDTLS_SSL_VARIABLE_BUFFER_LENGTH
+
+/**
+ * \def MBEDTLS_KEY_EXCHANGE_DHE_RSA_ENABLED
+ *
+ * Enable the DHE-RSA based ciphersuite modes in SSL / TLS.
+ *
+ * Requires: MBEDTLS_DHM_C, MBEDTLS_RSA_C, MBEDTLS_PKCS1_V15,
+ *           MBEDTLS_X509_CRT_PARSE_C
+ *
+ * This enables the following ciphersuites (if other requisites are
+ * enabled as well):
+ *      MBEDTLS_TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+ *      MBEDTLS_TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+ *      MBEDTLS_TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+ *      MBEDTLS_TLS_DHE_RSA_WITH_CAMELLIA_256_GCM_SHA384
+ *      MBEDTLS_TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA256
+ *      MBEDTLS_TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA
+ *      MBEDTLS_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+ *      MBEDTLS_TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+ *      MBEDTLS_TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+ *      MBEDTLS_TLS_DHE_RSA_WITH_CAMELLIA_128_GCM_SHA256
+ *      MBEDTLS_TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA256
+ *      MBEDTLS_TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA
+ *
+ * \warning    Using DHE constitutes a security risk as it
+ *             is not possible to validate custom DH parameters.
+ *             If possible, it is recommended users should consider
+ *             preferring other methods of key exchange.
+ *             See dhm.h for more details.
+ *
+ */
+#define MBEDTLS_KEY_EXCHANGE_DHE_RSA_ENABLED
+
+/**
+ * \def MBEDTLS_KEY_EXCHANGE_DHE_PSK_ENABLED
+ *
+ * Enable the DHE-PSK based ciphersuite modes in SSL / TLS.
+ *
+ * Requires: MBEDTLS_DHM_C
+ *
+ * This enables the following ciphersuites (if other requisites are
+ * enabled as well):
+ *      MBEDTLS_TLS_DHE_PSK_WITH_AES_256_GCM_SHA384
+ *      MBEDTLS_TLS_DHE_PSK_WITH_AES_256_CBC_SHA384
+ *      MBEDTLS_TLS_DHE_PSK_WITH_AES_256_CBC_SHA
+ *      MBEDTLS_TLS_DHE_PSK_WITH_CAMELLIA_256_GCM_SHA384
+ *      MBEDTLS_TLS_DHE_PSK_WITH_CAMELLIA_256_CBC_SHA384
+ *      MBEDTLS_TLS_DHE_PSK_WITH_AES_128_GCM_SHA256
+ *      MBEDTLS_TLS_DHE_PSK_WITH_AES_128_CBC_SHA256
+ *      MBEDTLS_TLS_DHE_PSK_WITH_AES_128_CBC_SHA
+ *      MBEDTLS_TLS_DHE_PSK_WITH_CAMELLIA_128_GCM_SHA256
+ *      MBEDTLS_TLS_DHE_PSK_WITH_CAMELLIA_128_CBC_SHA256
+ *
+ * \warning    Using DHE constitutes a security risk as it
+ *             is not possible to validate custom DH parameters.
+ *             If possible, it is recommended users should consider
+ *             preferring other methods of key exchange.
+ *             See dhm.h for more details.
+ *
+ */
+#define MBEDTLS_KEY_EXCHANGE_DHE_PSK_ENABLED
+
+/**
+ * \def MBEDTLS_KEY_EXCHANGE_ECDHE_RSA_ENABLED
+ *
+ * Enable the ECDHE-RSA based ciphersuite modes in SSL / TLS.
+ *
+ * Requires: MBEDTLS_ECDH_C or (MBEDTLS_USE_PSA_CRYPTO and PSA_WANT_ALG_ECDH)
+ *           MBEDTLS_RSA_C
+ *           MBEDTLS_PKCS1_V15
+ *           MBEDTLS_X509_CRT_PARSE_C
+ *
+ * This enables the following ciphersuites (if other requisites are
+ * enabled as well):
+ *      MBEDTLS_TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ *      MBEDTLS_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+ *      MBEDTLS_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+ *      MBEDTLS_TLS_ECDHE_RSA_WITH_CAMELLIA_256_GCM_SHA384
+ *      MBEDTLS_TLS_ECDHE_RSA_WITH_CAMELLIA_256_CBC_SHA384
+ *      MBEDTLS_TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+ *      MBEDTLS_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+ *      MBEDTLS_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+ *      MBEDTLS_TLS_ECDHE_RSA_WITH_CAMELLIA_128_GCM_SHA256
+ *      MBEDTLS_TLS_ECDHE_RSA_WITH_CAMELLIA_128_CBC_SHA256
+ */
+#define MBEDTLS_KEY_EXCHANGE_ECDHE_RSA_ENABLED
+
 #if defined(MBEDTLS_SSL_CLI_C) && defined(MBEDTLS_SSL_PROTO_TLS1_2)
 
 #include "mbedtls/platform.h"
