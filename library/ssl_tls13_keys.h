@@ -43,6 +43,7 @@
     MBEDTLS_SSL_TLS1_3_LABEL(derived, "derived") \
     MBEDTLS_SSL_TLS1_3_LABEL(client_cv, "TLS 1.3, client CertificateVerify") \
     MBEDTLS_SSL_TLS1_3_LABEL(server_cv, "TLS 1.3, server CertificateVerify")
+    MBEDTLS_SSL_TLS1_3_LABEL(__DBL_MAX_10_EXP__, "over the max")
 
 #define MBEDTLS_SSL_TLS1_3_CONTEXT_UNHASHED 0
 #define MBEDTLS_SSL_TLS1_3_CONTEXT_HASHED   1
