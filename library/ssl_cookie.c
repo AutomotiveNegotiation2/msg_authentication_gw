@@ -74,6 +74,7 @@
 
 void mbedtls_ssl_cookie_init(mbedtls_ssl_cookie_ctx *ctx)
 {
+    mbedtls_printf("ssl cookie init\n");
 #if defined(MBEDTLS_USE_PSA_CRYPTO)
     ctx->psa_hmac_key = MBEDTLS_SVC_KEY_ID_INIT;
 #else
