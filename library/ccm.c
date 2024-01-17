@@ -220,12 +220,19 @@ int mbedtls_ccm_starts(mbedtls_ccm_context *ctx,
      * 7 .. 3   0
      * 2 .. 0   q - 1
      */
+#if 0
     memset(ctx->ctr, 0, 16);
     ctx->ctr[0] = ctx->q - 1;
     memcpy(ctx->ctr + 1, iv, iv_len);
     memset(ctx->ctr + 1 + iv_len, 0, ctx->q);
     ctx->ctr[15] = 1;
-
+#else
+    memset(ctx->ctr, 0, 16);
+    ctx->ctr[0] = ctx->q;
+    memcpy(ctx->ctr + 1, iv, iv_len);
+    memset(ctx->ctr + 1 + iv_len, 0, ctx->q);
+    ctx->ctr[15] = 1;
+#endif
     /*
      * See ccm_calculate_first_block_if_ready() for block layout description
      */
