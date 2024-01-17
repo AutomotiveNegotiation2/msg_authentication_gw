@@ -43,7 +43,7 @@ int mbedtls_base64_encode(unsigned char *dst, size_t dlen, size_t *olen,
     int C1, C2, C3;
     unsigned char *p;
 
-    if (slen == 0) {
+    if (slen == 0 || dst == NULL || dlen == 0) {
         *olen = 0;
         return 0;
     }
@@ -114,6 +114,10 @@ int mbedtls_base64_decode(unsigned char *dst, size_t dlen, size_t *olen,
     int spaces_present = 0;
     unsigned char *p;
 
+    if(dst == NULL)
+    {
+        return -1;
+    }
     /* First pass: check for validity and get output length */
     for (i = n = 0; i < slen; i++) {
         /* Skip spaces before checking for EOL */
