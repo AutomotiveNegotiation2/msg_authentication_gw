@@ -112,6 +112,7 @@ int mbedtls_ssl_tls13_fetch_handshake_msg_test(
          *    uint24 length;
          *    ...
          */
+        MBEDTLS_SSL_DEBUG_MSG(1, "mbedtls_ssl13_fetch_handshake_msg fun was passed successfullu.");
         *buf        = ssl->in_msg   + 4U;
         *buf_len    = ssl->in_hslen - 4U;
     }
