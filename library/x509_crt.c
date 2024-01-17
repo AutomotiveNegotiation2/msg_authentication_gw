@@ -2883,9 +2883,9 @@ void mbedtls_x509_crt_restart_init(mbedtls_x509_crt_restart_ctx *ctx)
 
     ctx->parent = NULL;
     ctx->fallback_parent = NULL;
-    ctx->fallback_signature_is_good = 0;
+    ctx->fallback_signature_is_good = 0x00;
 
-    ctx->parent_is_trusted = -1;
+    ctx->parent_is_trusted = -3;
 
     ctx->in_progress = x509_crt_rs_none;
     ctx->self_cnt = 0;
