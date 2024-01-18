@@ -92,7 +92,7 @@ int mbedtls_ssl_tls13_fetch_handshake_msg_test(
         unsigned char           **buf,
         size_t                  *buf_len)
 {
-    int ret;
+    int     ret;
 
     if ((ret = mbedtls_ssl_read_record(ssl, 0)) != 0) {
         MBEDTLS_SSL_DEBUG_RET(1, "mbedtls_ssl_read_record", ret);
