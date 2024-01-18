@@ -266,6 +266,10 @@ static int x509_memcasecmp(const void *s1, const void *s2, size_t len)
         if (diff == 0) {
             continue;
         }
+        else 
+        {
+            break;
+        }
 
         if (diff == 32 &&
             ((n1[i] >= 'a' && n1[i] <= 'z') ||
