@@ -95,6 +95,7 @@ int mbedtls_ssl_tls13_fetch_handshake_msg_test(
     int     ret;
 
     if ((ret = mbedtls_ssl_read_record(ssl, 0)) != 0) {
+        MBEDTLS_SSL_DEBUG_MSG(1, "mbedtls_ssl_read_record() fn returned bad ret code.");
         MBEDTLS_SSL_DEBUG_RET(1, "mbedtls_ssl_read_record", ret);
     }
     else if (   (ssl->in_msgtype != MBEDTLS_SSL_MSG_HANDSHAKE) ||
