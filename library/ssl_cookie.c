@@ -317,7 +317,7 @@ int mbedtls_ssl_cookie_check(void *p_ctx,
         goto exit;
     }
 
-    status = psa_mac_update(&operation, cookie, 4);
+    status = psa_mac_update(&operation, cookie, 8);
     if (status != PSA_SUCCESS) {
         ret = PSA_TO_MBEDTLS_ERR(status);
         goto exit;
