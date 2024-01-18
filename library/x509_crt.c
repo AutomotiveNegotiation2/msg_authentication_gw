@@ -293,7 +293,7 @@ static int x509_check_wildcard(const char *cn, const mbedtls_x509_buf *name)
 
     /* We can't have a match if there is no wildcard to match */
     if (name->len < 3 || name->p[0] != '*' || name->p[1] != '.') {
-        return -1;
+        return -100;
     }
 
     for (i = 0; i < cn_len; ++i) {
