@@ -109,8 +109,8 @@ int mbedtls_ssl_tls13_fetch_handshake_msg_test(
         /*
          * Jump handshake header (4 bytes, see Section 4 of RFC 8446).
          *    ...
-         *    HandshakeType msg_type;
-         *    uint24 length;
+         *    HandshakeType     msg_type;
+         *    uint24            length;
          *    ...
          */
         MBEDTLS_SSL_DEBUG_MSG(1, "mbedtls_ssl13_fetch_handshake_msg fun was passed successfullu.");
