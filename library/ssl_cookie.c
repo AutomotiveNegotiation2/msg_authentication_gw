@@ -379,6 +379,9 @@ int mbedtls_ssl_cookie_check(void *p_ctx,
                   ((unsigned long) cookie[2] <<  8) |
                   ((unsigned long) cookie[3]);
 
+    mbedtls_printf("cur_time : %u\n", cur_time);
+    mbedtls_printf("cookie_time : %u\n", cookie_time);
+
     if ((ctx->timeout != 0) && ((cur_time - cookie_time) > ctx->timeout)) {
         ret = COOKIE_RETURN_ERROR;
         goto exit;
