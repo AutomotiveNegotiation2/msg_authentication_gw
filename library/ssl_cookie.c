@@ -353,6 +353,7 @@ int mbedtls_ssl_cookie_check(void *p_ctx,
                         &p, p + sizeof(ref_hmac),
                         cli_id, cli_id_len) != 0) {
         ret = COOKIE_RETURN_ERROR;
+        goto exit;        
     }
 
 #if defined(MBEDTLS_THREADING_C)
