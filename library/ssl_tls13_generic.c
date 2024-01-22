@@ -101,8 +101,7 @@ int mbedtls_ssl_tls13_fetch_handshake_msg_test(
     else if (   (ssl->in_msgtype != MBEDTLS_SSL_MSG_HANDSHAKE) ||
                 (ssl->in_msg[0]  != hs_type) ) {
         MBEDTLS_SSL_DEBUG_MSG(1, ("Receive unexpected handshake message."));
-        MBEDTLS_SSL_PEND_FATAL_ALERT(MBEDTLS_SSL_ALERT_MSG_UNEXPECTED_MESSAGE,
-                                     MBEDTLS_ERR_SSL_UNEXPECTED_MESSAGE);
+        MBEDTLS_SSL_PEND_FATAL_ALERT(MBEDTLS_SSL_ALERT_MSG_UNEXPECTED_MESSAGE, MBEDTLS_ERR_SSL_UNEXPECTED_MESSAGE);
         ret = MBEDTLS_ERR_SSL_UNEXPECTED_MESSAGE;
     }
     else {
