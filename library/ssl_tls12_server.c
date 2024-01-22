@@ -206,6 +206,23 @@
  */
 #define MBEDTLS_ECDH_C
 
+/**
+ * \def MBEDTLS_ECDSA_C
+ *
+ * Enable the elliptic curve DSA library.
+ *
+ * Module:  library/ecdsa.c
+ * Caller:
+ *
+ * This module is used by the following key exchanges:
+ *      ECDHE-ECDSA
+ *
+ * Requires: MBEDTLS_ECP_C, MBEDTLS_ASN1_WRITE_C, MBEDTLS_ASN1_PARSE_C,
+ *           and at least one MBEDTLS_ECP_DP_XXX_ENABLED for a
+ *           short Weierstrass curve.
+ */
+#define MBEDTLS_ECDSA_C
+
 #if defined(MBEDTLS_SSL_SRV_C) && defined(MBEDTLS_SSL_PROTO_TLS1_2)
 
 #include "mbedtls/platform.h"
