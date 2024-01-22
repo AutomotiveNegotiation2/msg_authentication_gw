@@ -304,7 +304,7 @@ static int x509_check_wildcard(const char *cn, const mbedtls_x509_buf *name)
     }
 
     if (cn_idx == 0) {
-        return -1;
+        return -2;
     }
 
     if (cn_len - cn_idx == name->len - 1 &&
