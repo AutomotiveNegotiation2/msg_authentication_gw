@@ -55,6 +55,7 @@
 #define COOKIE_MD_MIN_OUTLEN    2
 #define COOKIE_MD_OUTLEN        64
 #define COOKIE_MD_MAX_OUTLEN    256
+#define COOKIE_HMAC_MIN_LEN     2
 #define COOKIE_HMAC_LEN         56
 #define COOKIE_HMAC_MAX_LEN     256
 #elif defined(MBEDTLS_HAS_ALG_SHA_384_VIA_LOWLEVEL_OR_PSA)
@@ -62,6 +63,7 @@
 #define COOKIE_MD_MIN_OUTLEN    2
 #define COOKIE_MD_OUTLEN        96
 #define COOKIE_MD_MAX_OUTLEN    384
+#define COOKIE_HMAC_MIN_LEN     2
 #define COOKIE_HMAC_LEN         56
 #define COOKIE_HMAC_MAX_LEN     256
 #else
