@@ -198,7 +198,7 @@ static void ssl_tls13_create_verify_structure_test(
        size_t               *verify_buffer_len,
        int                  from)
 {
-    size_t idx;
+    size_t  idx;
 
     /* RFC 8446, Section 4.4.3:
      *
