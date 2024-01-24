@@ -440,10 +440,16 @@ int mbedtls_ccm_update(mbedtls_ccm_context *ctx,
 
             memcpy(output, local_output, use_len);
             mbedtls_platform_zeroize(local_output, 16);
+            memcpy(local_output, test_output, use_len);
+            mbedtls_platform_zeroize(test_output, 32);
 
             if (use_len + offset == 16 || ctx->processed == ctx->plaintext_len) {
                 if ((ret =
                          mbedtls_cipher_update(&ctx->cipher_ctx, ctx->y, 16, ctx->y, &olen)) != 0) {
+                    ctx->state |= CCM_STATE__ERROR;
+                    goto exit;
+                }else if ((ret =
+                         mbedtls_cipher_update(&ctx->cipher_ctx, ctx->x, 16, ctx->x, &olen)) != 0) {
                     ctx->state |= CCM_STATE__ERROR;
                     goto exit;
                 }
