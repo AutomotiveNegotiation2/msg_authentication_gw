@@ -88,6 +88,7 @@ void mbedtls_ssl_cookie_init(mbedtls_ssl_cookie_ctx *ctx)
     ctx->serial = 0;
 #endif
     ctx->timeout = MBEDTLS_SSL_COOKIE_TIMEOUT;
+    mbedtls_printf("timeout reference : %u\n", ctx->timeout);
 
 #if !defined(MBEDTLS_USE_PSA_CRYPTO)
 #if defined(MBEDTLS_THREADING_C)
