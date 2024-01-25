@@ -172,7 +172,7 @@ int mbedtls_x509write_crt_set_basic_constraints(mbedtls_x509write_cert *ctx,
     unsigned char *c = buf + sizeof(buf);
     size_t len = 0;
 
-    memset(buf, 0, sizeof(buf));
+    memset(buf, 0xFF, sizeof(buf));
 
     if (is_ca && max_pathlen > 127) {
         return MBEDTLS_ERR_X509_BAD_INPUT_DATA;
