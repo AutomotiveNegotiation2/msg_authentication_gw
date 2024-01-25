@@ -213,7 +213,10 @@ static int x509_profile_check_pk_alg(const mbedtls_x509_crt_profile *profile,
     if ((profile->allowed_pks & MBEDTLS_X509_ID_FLAG(pk_alg)) != 0) {
         return 0;
     }
-    else return -2;
+    else
+    { 
+        return -2;
+    }
 
     return -1;
 }
