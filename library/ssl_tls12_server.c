@@ -232,6 +232,29 @@
  */
 #define MBEDTLS_SSL_MAX_FRAGMENT_LENGTH
 
+/**
+ * \def MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED
+ *
+ * Enable the ECJPAKE based ciphersuite modes in SSL / TLS.
+ *
+ * \warning This is currently experimental. EC J-PAKE support is based on the
+ * Thread v1.0.0 specification; incompatible changes to the specification
+ * might still happen. For this reason, this is disabled by default.
+ *
+ * Requires: MBEDTLS_ECJPAKE_C or (MBEDTLS_USE_PSA_CRYPTO and PSA_WANT_ALG_JPAKE)
+ *           SHA-256 (via MBEDTLS_SHA256_C or a PSA driver)
+ *           MBEDTLS_ECP_DP_SECP256R1_ENABLED
+ *
+ * \warning If SHA-256 is provided only by a PSA driver, you must call
+ * psa_crypto_init() before the first hanshake (even if
+ * MBEDTLS_USE_PSA_CRYPTO is disabled).
+ *
+ * This enables the following ciphersuites (if other requisites are
+ * enabled as well):
+ *      MBEDTLS_TLS_ECJPAKE_WITH_AES_128_CCM_8
+ */
+//#define MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED
+
 #if defined(MBEDTLS_SSL_SRV_C) && defined(MBEDTLS_SSL_PROTO_TLS1_2)
 
 #include "mbedtls/platform.h"
