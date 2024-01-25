@@ -233,6 +233,7 @@ int mbedtls_ssl_cookie_write(void *p_ctx,
 #if defined(MBEDTLS_USE_PSA_CRYPTO)
     status = psa_mac_sign_setup(&operation, ctx->psa_hmac_key,
                                 ctx->psa_hmac_alg);
+    mbedtls_printf("status : 0x%02X \n", status);
     if (status != PSA_SUCCESS) {
         ret = PSA_TO_MBEDTLS_ERR(status);
         mbedtls_printf("[%d] status : 0x%02X \n", __LINE__, status);
@@ -240,6 +241,7 @@ int mbedtls_ssl_cookie_write(void *p_ctx,
     }
 
     status = psa_mac_update(&operation, *p - 4, 4);
+    mbedtls_printf("status : 0x%02X \n", status);
     if (status != PSA_SUCCESS) {
         ret = PSA_TO_MBEDTLS_ERR(status);
         mbedtls_printf("[%d] status : 0x%02X \n", __LINE__, status);
@@ -247,6 +249,7 @@ int mbedtls_ssl_cookie_write(void *p_ctx,
     }
 
     status = psa_mac_update(&operation, cli_id, cli_id_len);
+    mbedtls_printf("status : 0x%02X \n", status);
     if (status != PSA_SUCCESS) {
         ret = PSA_TO_MBEDTLS_ERR(status);
         mbedtls_printf("[%d] status : 0x%02X \n", __LINE__, status);
@@ -255,6 +258,7 @@ int mbedtls_ssl_cookie_write(void *p_ctx,
 
     status = psa_mac_sign_finish(&operation, *p, COOKIE_MD_OUTLEN,
                                  &sign_mac_length);
+    mbedtls_printf("status : 0x%02X \n", status);
     if (status != PSA_SUCCESS) {
         ret = PSA_TO_MBEDTLS_ERR(status);
         mbedtls_printf("[%d] status : 0x%02X \n", __LINE__, status);
