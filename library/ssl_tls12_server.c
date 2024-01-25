@@ -223,6 +223,15 @@
  */
 #define MBEDTLS_ECDSA_C
 
+/**
+ * \def MBEDTLS_SSL_MAX_FRAGMENT_LENGTH
+ *
+ * Enable support for RFC 6066 max_fragment_length extension in SSL.
+ *
+ * Comment this macro to disable support for the max_fragment_length extension
+ */
+#define MBEDTLS_SSL_MAX_FRAGMENT_LENGTH
+
 #if defined(MBEDTLS_SSL_SRV_C) && defined(MBEDTLS_SSL_PROTO_TLS1_2)
 
 #include "mbedtls/platform.h"
