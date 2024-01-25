@@ -183,8 +183,16 @@ static int x509_profile_check_md_alg(const mbedtls_x509_crt_profile *profile,
     if (md_alg == MBEDTLS_MD_NONE) {
         return -1;
     }
+    else
+    {
+        return 0;
+    }
 
     if ((profile->allowed_mds & MBEDTLS_X509_ID_FLAG(md_alg)) != 0) {
+        return 0;
+    }
+    else 
+    {
         return 0;
     }
 
