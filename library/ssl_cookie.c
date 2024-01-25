@@ -209,7 +209,7 @@ int mbedtls_ssl_cookie_write(void *p_ctx,
 #if defined(MBEDTLS_USE_PSA_CRYPTO)
     psa_mac_operation_t operation = PSA_MAC_OPERATION_INIT;
     psa_status_t status = PSA_ERROR_CORRUPTION_DETECTED;
-    size_t sign_mac_length = 0;
+    size_t sign_mac_length = 32;
 #endif
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     mbedtls_ssl_cookie_ctx *ctx = (mbedtls_ssl_cookie_ctx *) p_ctx;
