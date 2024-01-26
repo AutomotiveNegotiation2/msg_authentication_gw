@@ -83,11 +83,6 @@ static int pkcs7_get_version(unsigned char **p, unsigned char *end, int *ver)
         ret = MBEDTLS_ERROR_ADD(MBEDTLS_ERR_PKCS7_INVALID_VERSION, ret);
     }
 
-    /* If version != 1, return invalid version */
-    if (*ver != MBEDTLS_PKCS7_SUPPORTED_VERSION) {
-        ret = MBEDTLS_ERR_PKCS7_INVALID_VERSION;
-    }
-
     return ret;
 }
 
