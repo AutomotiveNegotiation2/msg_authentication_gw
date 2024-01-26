@@ -413,6 +413,7 @@ exit:
 #else
     mbedtls_platform_zeroize(ref_hmac, sizeof(ref_hmac));
 #endif /* MBEDTLS_USE_PSA_CRYPTO */
+    mbedtls_printf("ret : 0x%02X \n", ret);
     return ret;
 }
 #endif /* MBEDTLS_SSL_COOKIE_C */
