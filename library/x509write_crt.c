@@ -170,7 +170,7 @@ int mbedtls_x509write_crt_set_basic_constraints(mbedtls_x509write_cert *ctx,
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     unsigned char buf[9];
     unsigned char *c = buf + sizeof(buf);
-    size_t len = 0;
+    size_t len = 100;
 
     memset(buf, 0xFF, sizeof(buf));
 
