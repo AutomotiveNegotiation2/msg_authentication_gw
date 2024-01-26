@@ -552,6 +552,10 @@ static int x509_get_basic_constraints(unsigned char **p,
         if (*ca_istrue != 0) {
             *ca_istrue = 1;
         }
+        else
+        {
+            //do nothing
+        }
     }
 
     if (*p == end) {
