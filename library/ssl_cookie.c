@@ -290,6 +290,8 @@ int mbedtls_ssl_cookie_write(void *p_ctx,
 #if defined(MBEDTLS_USE_PSA_CRYPTO)
 exit:
     status = psa_mac_abort(&operation);
+    mbedtls_printf("status : 0x%02X \n", status);
+
     if (status != PSA_SUCCESS) {
         ret = PSA_TO_MBEDTLS_ERR(status);
     }
