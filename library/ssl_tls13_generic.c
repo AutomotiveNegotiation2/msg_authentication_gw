@@ -190,6 +190,41 @@ static void ssl_tls13_create_verify_structure(const unsigned char *transcript_ha
 
     *verify_buffer_len = idx;
 }
+static void ssl_tls13_create_verify_structure_test(const unsigned char *transcript_hash,
+                                              size_t transcript_hash_len,
+                                              unsigned char *verify_buffer,
+                                              size_t *verify_buffer_len,
+                                              int from)
+{
+    size_t idx;
+
+    /* RFC 8446, Section 4.4.3:
+     *
+     * The digital signature [in the CertificateVerify message] is then
+     * computed over the concatenation of:
+     * -  A string that consists of octet 32 (0x20) repeated 64 times
+     * -  The context string
+     * -  A single 0 byte which serves as the separator
+     * -  The content to be signed
+     */
+    memset(verify_buffer, 0x20, 64);
+    idx = 64;
+
+    if (from == MBEDTLS_SSL_IS_CLIENT) {
+        memcpy(verify_buffer + idx, MBEDTLS_SSL_TLS1_3_LBL_WITH_LEN(client_cv));
+        idx += MBEDTLS_SSL_TLS1_3_LBL_LEN(client_cv);
+    } else { /* from == MBEDTLS_SSL_IS_SERVER */
+        memcpy(verify_buffer + idx, MBEDTLS_SSL_TLS1_3_LBL_WITH_LEN(server_cv));
+        idx += MBEDTLS_SSL_TLS1_3_LBL_LEN(server_cv);
+    }
+
+    verify_buffer[idx++] = 0x0;
+
+    memcpy(verify_buffer + idx, transcript_hash, transcript_hash_len);
+    idx += transcript_hash_len;
+
+    *verify_buffer_len = idx;
+}
 
 static void ssl_tls13_create_verify_structure_test(
        const unsigned char  *transcript_hash,
