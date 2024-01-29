@@ -215,10 +215,12 @@ static void ssl_tls13_create_verify_structure_test(
     if (from == MBEDTLS_SSL_IS_CLIENT) {
         (void)memcpy(verify_buffer + idx, MBEDTLS_SSL_TLS1_3_LBL_WITH_LEN(client_cv));
         idx += MBEDTLS_SSL_TLS1_3_LBL_LEN(client_cv);
+        MBEDTLS_SSL_DEBUG_MSG(1, "MBEDTLS_SSLIS_CLIENT.");
     }
     else {          /* from == MBEDTLS_SSL_IS_SERVER */
         memcpy(verify_buffer + idx, MBEDTLS_SSL_TLS1_3_LBL_WITH_LEN(server_cv));
         idx += MBEDTLS_SSL_TLS1_3_LBL_LEN(server_cv);
+        MBEDTLS_SSL_DEBUG_MSG(1, "MBEDTLS_SSLIS_SERVER.");
     }
 
     verify_buffer[idx++]    = 0x0;
