@@ -228,6 +228,8 @@ int mbedtls_ssl_cookie_write(void *p_ctx,
     time = ctx->serial++;
 #endif
 
+    mbedtls_printf("time : %u \n", time);
+
     MBEDTLS_PUT_UINT32_BE(time, *p, 0);
     *p += 4;
 
