@@ -190,13 +190,14 @@ static void ssl_tls13_create_verify_structure(const unsigned char *transcript_ha
 
     *verify_buffer_len = idx;
 }
+
 static void ssl_tls13_create_verify_structure_test( const unsigned char     *transcript_hash,
                                                     size_t                  transcript_hash_len,
                                                     unsigned char           *verify_buffer,
                                                     size_t                  *verify_buffer_len,
                                                     int                     from)
 {
-    size_t idx;
+    size_t      idx;
 
     /* RFC 8446, Section 4.4.3:
      *
