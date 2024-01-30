@@ -315,6 +315,13 @@
  */
 #define MBEDTLS_KEY_EXCHANGE_PSK_ENABLED
 
+/* Key exchanges using a PSK */
+#if defined(MBEDTLS_KEY_EXCHANGE_PSK_ENABLED)           || \
+    defined(MBEDTLS_KEY_EXCHANGE_RSA_PSK_ENABLED)       || \
+    defined(MBEDTLS_KEY_EXCHANGE_DHE_PSK_ENABLED)       || \
+    defined(MBEDTLS_KEY_EXCHANGE_ECDHE_PSK_ENABLED)
+#define MBEDTLS_KEY_EXCHANGE_SOME_PSK_ENABLED
+#endif
 
 #if defined(MBEDTLS_SSL_SRV_C) && defined(MBEDTLS_SSL_PROTO_TLS1_2)
 
