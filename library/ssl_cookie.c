@@ -214,7 +214,7 @@ int mbedtls_ssl_cookie_write(void *p_ctx,
 #endif
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     mbedtls_ssl_cookie_ctx *ctx = (mbedtls_ssl_cookie_ctx *) p_ctx;
-    unsigned long t;
+    unsigned long time;
 
     if (ctx == NULL || cli_id == NULL) {
         return MBEDTLS_ERR_SSL_BAD_INPUT_DATA;
@@ -223,12 +223,12 @@ int mbedtls_ssl_cookie_write(void *p_ctx,
     MBEDTLS_SSL_CHK_BUF_PTR(*p, end, COOKIE_LEN);
 
 #if defined(MBEDTLS_HAVE_TIME)
-    t = (unsigned long) mbedtls_time(NULL);
+    time = (unsigned long) mbedtls_time(NULL);
 #else
-    t = ctx->serial++;
+    time = ctx->serial++;
 #endif
 
-    MBEDTLS_PUT_UINT32_BE(t, *p, 0);
+    MBEDTLS_PUT_UINT32_BE(time, *p, 0);
     *p += 4;
 
 #if defined(MBEDTLS_USE_PSA_CRYPTO)
