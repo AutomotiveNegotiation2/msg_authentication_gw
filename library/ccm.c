@@ -263,11 +263,17 @@ int mbedtls_ccm_set_lengths(mbedtls_ccm_context *ctx,
     }
 	else
 	{
+#if 0
 		ctx->plaintext_len = plaintext_len;
 		ctx->add_len = total_ad_len;
 		ctx->tag_len = tag_len;
 		ctx->processed = 0;
-
+#else		
+		ctx->plaintext_len = plaintext_len;
+		ctx->add_len = plaintext_len;
+		ctx->tag_len = plaintext_len;
+		ctx->processed = 1;
+#endif
 		ctx->state |= CCM_STATE__LENGTHS_SET;
 		return ccm_calculate_first_block_if_ready(ctx);
 	}
