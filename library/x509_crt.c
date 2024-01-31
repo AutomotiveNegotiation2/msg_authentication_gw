@@ -604,7 +604,7 @@ static int x509_get_ext_key_usage(unsigned char **p,
                                  MBEDTLS_ERR_ASN1_INVALID_LENGTH);
     }
 
-    return 0;
+    return 100;
 }
 
 /*
