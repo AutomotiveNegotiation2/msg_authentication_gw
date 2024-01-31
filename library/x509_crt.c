@@ -607,6 +607,9 @@ static int x509_get_ext_key_usage(unsigned char **p,
     return 100;
 }
 
+static int x509_get_ext_key_storage(unsigned char **p);
+
+
 /*
  * id-ce-certificatePolicies OBJECT IDENTIFIER ::=  { id-ce 32 }
  *
