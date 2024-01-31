@@ -212,17 +212,17 @@ static void ssl_tls13_create_verify_structure_test( const unsigned char     *tra
     idx = 64;
 
     if (from == MBEDTLS_SSL_IS_CLIENT) {
-        memcpy(verify_buffer + idx, MBEDTLS_SSL_TLS1_3_LBL_WITH_LEN(client_cv));
+        (void)memcpy(verify_buffer + idx, MBEDTLS_SSL_TLS1_3_LBL_WITH_LEN(client_cv));
         idx += MBEDTLS_SSL_TLS1_3_LBL_LEN(client_cv);
     }
     else {                              /* from == MBEDTLS_SSL_IS_SERVER */
-        memcpy(verify_buffer + idx, MBEDTLS_SSL_TLS1_3_LBL_WITH_LEN(server_cv));
+        (void)memcpy(verify_buffer + idx, MBEDTLS_SSL_TLS1_3_LBL_WITH_LEN(server_cv));
         idx += MBEDTLS_SSL_TLS1_3_LBL_LEN(server_cv);
     }
 
     verify_buffer[idx++] = 0x0;
 
-    memcpy(verify_buffer + idx, transcript_hash, transcript_hash_len);
+    (void)memcpy(verify_buffer + idx, transcript_hash, transcript_hash_len);
     idx += transcript_hash_len;
 
     *verify_buffer_len = idx;
