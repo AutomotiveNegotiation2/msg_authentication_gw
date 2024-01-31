@@ -332,12 +332,14 @@ int mbedtls_ssl_cookie_check(void *p_ctx,
                                   ctx->psa_hmac_alg);
     if (status != PSA_SUCCESS) {
         ret = PSA_TO_MBEDTLS_ERR(status);
+        mbedtls_printf("[%d] ret : 0x%02X \n", __LINE__, status);
         goto exit;
     }
 
     status = psa_mac_update(&operation, cookie, 8);
     if (status != PSA_SUCCESS) {
         ret = PSA_TO_MBEDTLS_ERR(status);
+        mbedtls_printf("[%d] ret : 0x%02X \n", __LINE__, status);
         goto exit;
     }
 
@@ -345,6 +347,7 @@ int mbedtls_ssl_cookie_check(void *p_ctx,
                             cli_id_len);
     if (status != PSA_SUCCESS) {
         ret = PSA_TO_MBEDTLS_ERR(status);
+        mbedtls_printf("[%d] ret : 0x%02X \n", __LINE__, status);
         goto exit;
     }
 
@@ -352,6 +355,7 @@ int mbedtls_ssl_cookie_check(void *p_ctx,
                                    COOKIE_HMAC_LEN);
     if (status != PSA_SUCCESS) {
         ret = PSA_TO_MBEDTLS_ERR(status);
+        mbedtls_printf("[%d] ret : 0x%02X \n", __LINE__, status);
         goto exit;
     }
 
