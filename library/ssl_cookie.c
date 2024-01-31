@@ -74,7 +74,9 @@
  * Cookies are formed of a 4-bytes timestamp (or serial number) and
  * an HMAC of timestamp and client ID.
  */
-#define COOKIE_LEN      (2 + COOKIE_HMAC_MAX_LEN)
+#define COOKIE_MIN_LEN  (4 + COOKIE_HMAC_MIN_LEN)
+#define COOKIE_LEN      (4 + COOKIE_HMAC_LEN)
+#define COOKIE_MAX_LEN  (4 + COOKIE_HMAC_MAX_LEN)
 
 void mbedtls_ssl_cookie_init(mbedtls_ssl_cookie_ctx *ctx)
 {
