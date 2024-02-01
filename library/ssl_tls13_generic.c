@@ -854,12 +854,12 @@ static int ssl_tls13_validate_certificate(mbedtls_ssl_context *ssl)
 
 int mbedtls_ssl_tls13_process_certificate(mbedtls_ssl_context *ssl)
 {
-    int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
+    int             ret     = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     MBEDTLS_SSL_DEBUG_MSG(2, ("=> parse certificate"));
 
 #if defined(MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED)
-    unsigned char *buf;
-    size_t buf_len;
+    unsigned char   *buf;
+    size_t          buf_len;
 
     MBEDTLS_SSL_PROC_CHK(mbedtls_ssl_tls13_fetch_handshake_msg(
                              ssl, MBEDTLS_SSL_HS_CERTIFICATE,
