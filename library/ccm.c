@@ -299,6 +299,9 @@ int mbedtls_ccm_update_ad(mbedtls_ccm_context *ctx,
             if (add_len > ctx->add_len) {
                 return MBEDTLS_ERR_CCM_BAD_INPUT;
             }
+            ctx->processed += use_len;
+            add_len -= use_len;
+            add += use_len;
 
             ctx->y[0] ^= (unsigned char) ((ctx->add_len >> 8) & 0xFF);
             ctx->y[1] ^= (unsigned char) ((ctx->add_len) & 0xFF);
