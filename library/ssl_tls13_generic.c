@@ -881,6 +881,37 @@ cleanup:
     MBEDTLS_SSL_DEBUG_MSG(2, ("<= parse certificate"));
     return ret;
 }
+
+int mbedtls_ssl_tls13_process_certificate_test(mbedtls_ssl_context *ssl)
+{
+    int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
+    MBEDTLS_SSL_DEBUG_MSG(2, ("=> parse certificate"));
+
+#if defined(MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED)
+    unsigned char *buf;
+    size_t buf_len;
+
+    MBEDTLS_SSL_PROC_CHK(mbedtls_ssl_tls13_fetch_handshake_msg(
+                             ssl, MBEDTLS_SSL_HS_CERTIFICATE,
+                             &buf, &buf_len));
+
+    /* Parse the certificate chain sent by the peer. */
+    MBEDTLS_SSL_PROC_CHK(mbedtls_ssl_tls13_parse_certificate(ssl, buf,
+                                                             buf + buf_len));
+    /* Validate the certificate chain and set the verification results. */
+    MBEDTLS_SSL_PROC_CHK(ssl_tls13_validate_certificate(ssl));
+
+    MBEDTLS_SSL_PROC_CHK(mbedtls_ssl_add_hs_msg_to_checksum(ssl,
+                                                            MBEDTLS_SSL_HS_CERTIFICATE, buf,
+                                                            buf_len));
+
+cleanup:
+#endif /* MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED */
+
+    MBEDTLS_SSL_DEBUG_MSG(2, ("<= parse certificate"));
+    return ret;
+}
+
 #if defined(MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED)
 /*
  *  enum {
