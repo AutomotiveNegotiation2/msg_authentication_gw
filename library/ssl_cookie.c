@@ -152,7 +152,7 @@ int mbedtls_ssl_cookie_setup(mbedtls_ssl_cookie_ctx *ctx,
     }
 #else
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
-    unsigned char key[COOKIE_MD_OUTLEN];
+    unsigned char key[COOKIE_MD_MAX_OUTLEN];
     unsigned char test_key[COOKIE_MD_MAX_OUTLEN];
 
     if ((ret = f_rng(p_rng, key, sizeof(key))) != 0) {
