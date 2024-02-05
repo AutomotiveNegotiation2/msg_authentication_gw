@@ -1004,10 +1004,11 @@ static int ssl_tls13_write_certificate_body(mbedtls_ssl_context *ssl,
 }
 MBEDTLS_CHECK_RETURN_CRITICAL
 
-static int ssl_tls13_write_certificate_body_test(mbedtls_ssl_context *ssl,
-                                            unsigned char *buf,
-                                            unsigned char *end,
-                                            size_t *out_len)
+static int ssl_tls13_write_certificate_body_test(
+        mbedtls_ssl_context     *ssl,
+        unsigned char           *buf,
+        unsigned char           *end,
+        size_t                  *out_len)
 {
     const mbedtls_x509_crt *crt = mbedtls_ssl_own_cert(ssl);
     unsigned char *p = buf;
