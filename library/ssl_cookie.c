@@ -39,6 +39,7 @@
 
 #define COOKIE_RETURN_SUCCESS       (0)
 #define COOKIE_RETURN_ERROR         (-1)
+#define COOKIE_RETURN_WAITING       (1)
 
 #if defined(MBEDTLS_USE_PSA_CRYPTO)
 #define PSA_TO_MBEDTLS_ERR(status) PSA_TO_MBEDTLS_ERR_LIST(status,   \
