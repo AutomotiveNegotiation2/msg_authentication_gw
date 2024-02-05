@@ -328,6 +328,7 @@ int mbedtls_ssl_cookie_check(void *p_ctx,
     }
 
     if (cookie_len != COOKIE_LEN) {
+        mbedtls_printf("cookie len error! \n");
         return COOKIE_RETURN_ERROR;
     }
 
