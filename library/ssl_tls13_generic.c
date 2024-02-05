@@ -1002,6 +1002,71 @@ static int ssl_tls13_write_certificate_body(mbedtls_ssl_context *ssl,
 
     return 0;
 }
+MBEDTLS_CHECK_RETURN_CRITICAL
+
+static int ssl_tls13_write_certificate_body_test(mbedtls_ssl_context *ssl,
+                                            unsigned char *buf,
+                                            unsigned char *end,
+                                            size_t *out_len)
+{
+    const mbedtls_x509_crt *crt = mbedtls_ssl_own_cert(ssl);
+    unsigned char *p = buf;
+    unsigned char *certificate_request_context =
+        ssl->handshake->certificate_request_context;
+    unsigned char certificate_request_context_len =
+        ssl->handshake->certificate_request_context_len;
+    unsigned char *p_certificate_list_len;
+
+
+    /* ...
+     * opaque certificate_request_context<0..2^8-1>;
+     * ...
+     */
+    MBEDTLS_SSL_CHK_BUF_PTR(p, end, certificate_request_context_len + 1);
+    *p++ = certificate_request_context_len;
+    if (certificate_request_context_len > 0) {
+        memcpy(p, certificate_request_context, certificate_request_context_len);
+        p += certificate_request_context_len;
+    }
+
+    /* ...
+     * CertificateEntry certificate_list<0..2^24-1>;
+     * ...
+     */
+    MBEDTLS_SSL_CHK_BUF_PTR(p, end, 3);
+    p_certificate_list_len = p;
+    p += 3;
+
+    MBEDTLS_SSL_DEBUG_CRT(3, "own certificate", crt);
+
+    while (crt != NULL) {
+        size_t cert_data_len = crt->raw.len;
+
+        MBEDTLS_SSL_CHK_BUF_PTR(p, end, cert_data_len + 3 + 2);
+        MBEDTLS_PUT_UINT24_BE(cert_data_len, p, 0);
+        p += 3;
+
+        memcpy(p, crt->raw.p, cert_data_len);
+        p += cert_data_len;
+        crt = crt->next;
+
+        /* Currently, we don't have any certificate extensions defined.
+         * Hence, we are sending an empty extension with length zero.
+         */
+        MBEDTLS_PUT_UINT16_BE(0, p, 0);
+        p += 2;
+    }
+
+    MBEDTLS_PUT_UINT24_BE(p - p_certificate_list_len - 3,
+                          p_certificate_list_len, 0);
+
+    *out_len = p - buf;
+
+    MBEDTLS_SSL_PRINT_EXTS(
+        3, MBEDTLS_SSL_HS_CERTIFICATE, ssl->handshake->sent_extensions);
+
+    return 0;
+}
 
 int mbedtls_ssl_tls13_write_certificate(mbedtls_ssl_context *ssl)
 {
