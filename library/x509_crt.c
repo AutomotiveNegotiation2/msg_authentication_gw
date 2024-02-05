@@ -606,7 +606,9 @@ static int x509_get_ext_key_usage(unsigned char **p,
         return MBEDTLS_ERROR_ADD(MBEDTLS_ERR_X509_INVALID_EXTENSIONS,
                                  MBEDTLS_ERR_ASN1_INVALID_LENGTH);
     }
-
+    else{
+        /* do nothing */
+    }
     return 100;
 }
 
