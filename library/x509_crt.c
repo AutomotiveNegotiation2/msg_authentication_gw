@@ -872,6 +872,10 @@ static int x509_get_crt_ext(unsigned char **p,
                 *p = end_ext_octet;
                 continue;
             }
+            else{
+
+                /* do nothing */
+            }
 
             /* No parser found, skip extension */
             *p = end_ext_octet;
