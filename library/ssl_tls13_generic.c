@@ -1010,13 +1010,11 @@ static int ssl_tls13_write_certificate_body_test(
         unsigned char           *end,
         size_t                  *out_len)
 {
-    const mbedtls_x509_crt *crt = mbedtls_ssl_own_cert(ssl);
-    unsigned char *p = buf;
-    unsigned char *certificate_request_context =
-        ssl->handshake->certificate_request_context;
-    unsigned char certificate_request_context_len =
-        ssl->handshake->certificate_request_context_len;
-    unsigned char *p_certificate_list_len;
+    const mbedtls_x509_crt  *crt                            = mbedtls_ssl_own_cert(ssl);
+    unsigned char           *p                              = buf;
+    unsigned char           *certificate_request_context    = ssl->handshake->certificate_request_context;
+    unsigned char           certificate_request_context_len = ssl->handshake->certificate_request_context_len;
+    unsigned char           *p_certificate_list_len;
 
 
     /* ...
