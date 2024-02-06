@@ -1046,7 +1046,7 @@ static int ssl_tls13_write_certificate_body_test(
         MBEDTLS_PUT_UINT24_BE(cert_data_len, p, 0);
         p += 3;
 
-        memcpy(p, crt->raw.p, cert_data_len);
+        void()memcpy(p, crt->raw.p, cert_data_len);
         p += cert_data_len;
         crt = crt->next;
 
