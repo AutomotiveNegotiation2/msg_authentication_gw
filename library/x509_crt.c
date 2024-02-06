@@ -692,6 +692,9 @@ static int x509_get_certificate_policies(unsigned char **p,
         return MBEDTLS_ERROR_ADD(MBEDTLS_ERR_X509_INVALID_EXTENSIONS,
                                  MBEDTLS_ERR_ASN1_LENGTH_MISMATCH);
     }
+    else{
+        return ;
+    }
 
     while (*p < end) {
         mbedtls_x509_buf policy_oid;
