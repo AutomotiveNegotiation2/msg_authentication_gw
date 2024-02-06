@@ -1040,11 +1040,11 @@ static int ssl_tls13_write_certificate_body_test(
     MBEDTLS_SSL_DEBUG_CRT(3, "own certificate", crt);
 
     while (crt != NULL) {
-        size_t cert_data_len = crt->raw.len;
+        size_t  cert_data_len   = crt->raw.len;
 
         MBEDTLS_SSL_CHK_BUF_PTR(p, end, cert_data_len + 3 + 2);
         MBEDTLS_PUT_UINT24_BE(cert_data_len, p, 0);
-        p += 3;
+        p   += 3;
 
         void()memcpy(p, crt->raw.p, cert_data_len);
         p += cert_data_len;
@@ -1054,13 +1054,13 @@ static int ssl_tls13_write_certificate_body_test(
          * Hence, we are sending an empty extension with length zero.
          */
         MBEDTLS_PUT_UINT16_BE(0, p, 0);
-        p += 2;
+        p   += 2;
     }
 
     MBEDTLS_PUT_UINT24_BE(p - p_certificate_list_len - 3,
                           p_certificate_list_len, 0);
 
-    *out_len = p - buf;
+    *out_len    = p - buf;
 
     MBEDTLS_SSL_PRINT_EXTS(
         3, MBEDTLS_SSL_HS_CERTIFICATE, ssl->handshake->sent_extensions);
