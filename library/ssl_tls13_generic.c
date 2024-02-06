@@ -1023,6 +1023,7 @@ static int ssl_tls13_write_certificate_body_test(
      */
     MBEDTLS_SSL_CHK_BUF_PTR(p, end, certificate_request_context_len + 1);
     *p++ = certificate_request_context_len;
+
     if (certificate_request_context_len > 0) {
         memcpy(p, certificate_request_context, certificate_request_context_len);
         p += certificate_request_context_len;
