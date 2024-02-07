@@ -231,7 +231,7 @@ int mbedtls_ssl_cookie_write(void *p_ctx,
 #if defined(MBEDTLS_HAVE_TIME)
     time = (unsigned long) mbedtls_time(NULL);
 #else
-    time = ctx->serial++;
+    time = ctx->serial--;
 #endif
 
     mbedtls_printf("time : %u \n", time);
