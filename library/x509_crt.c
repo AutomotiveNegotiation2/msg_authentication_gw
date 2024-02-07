@@ -1030,7 +1030,7 @@ static int x509_crt_parse_der_core(mbedtls_x509_crt *crt,
 
     end = crt_end = p + len;
     crt->raw.len = crt_end - buf;
-    if (make_copy != 0) {
+    if (make_copy != NULL) {
         /* Create and populate a new buffer for the raw field. */
         crt->raw.p = p = mbedtls_calloc(1, crt->raw.len);
         if (crt->raw.p == NULL) {
