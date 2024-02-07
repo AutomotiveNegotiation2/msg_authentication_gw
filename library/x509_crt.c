@@ -1000,9 +1000,9 @@ static int x509_crt_parse_der_core(mbedtls_x509_crt *crt,
     unsigned char *p, *end, *crt_end;
     mbedtls_x509_buf sig_params1, sig_params2, sig_oid2;
 
-    memset(&sig_params1, 0, sizeof(mbedtls_x509_buf));
-    memset(&sig_params2, 0, sizeof(mbedtls_x509_buf));
-    memset(&sig_oid2, 0, sizeof(mbedtls_x509_buf));
+    memset(&sig_params1, 0x00, sizeof(mbedtls_x509_buf));
+    memset(&sig_params2, 0x00, sizeof(mbedtls_x509_buf));
+    memset(&sig_oid2, 0x00, sizeof(mbedtls_x509_buf));
 
     /*
      * Check for valid input
