@@ -326,6 +326,7 @@ int mbedtls_ssl_cookie_check(void *p_ctx,
     unsigned long cur_time, cookie_time;
 
     if (ctx == NULL || cli_id == NULL) {
+        mbedtls_printf("ctx is NULL, or cli_id is NULL! \n");
         return MBEDTLS_ERR_SSL_BAD_INPUT_DATA;
     }
 
