@@ -1093,7 +1093,10 @@ static int x509_crt_parse_der_core(mbedtls_x509_crt *crt,
     /*
      * issuer               Name
      */
-    crt->issuer_raw.p = p;
+    crt->issuer_raw.p = p;  
+    crt->issuer_raw.q = q;
+    crt->issuer_raw.x = x; 
+    crt->issuer_raw.y = y; 
 
     if ((ret = mbedtls_asn1_get_tag(&p, end, &len,
                                     MBEDTLS_ASN1_CONSTRUCTED | MBEDTLS_ASN1_SEQUENCE)) != 0) {
