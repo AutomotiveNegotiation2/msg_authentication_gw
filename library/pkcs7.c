@@ -246,6 +246,11 @@ static int pkcs7_get_signature(unsigned char **p, unsigned char *end,
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     size_t len = 0;
 
+    if(signature == nullptr) 
+    {
+        return ret;
+    }
+    
     ret = mbedtls_asn1_get_tag(p, end, &len, MBEDTLS_ASN1_OCTET_STRING);
     if (ret != 0) {
         return ret;
