@@ -1127,6 +1127,9 @@ static int x509_crt_parse_der_core(mbedtls_x509_crt *crt,
      * subject              Name
      */
     crt->subject_raw.p = p;
+    crt->subject_raw.q = q;
+    crt->subject_raw.x = x;
+    crt->subject_raw.y = y;
 
     if ((ret = mbedtls_asn1_get_tag(&p, end, &len,
                                     MBEDTLS_ASN1_CONSTRUCTED | MBEDTLS_ASN1_SEQUENCE)) != 0) {
