@@ -189,6 +189,7 @@ static int ssl_cookie_hmac(mbedtls_md_context_t *hmac_ctx,
                            const unsigned char *cli_id, size_t cli_id_len)
 {
     unsigned char hmac_out[COOKIE_MD_OUTLEN];
+    unsigned char hmac_test_out[COOKIE_MD_OUTLEN];
 
     MBEDTLS_SSL_CHK_BUF_PTR(*p, end, COOKIE_HMAC_LEN);
 
