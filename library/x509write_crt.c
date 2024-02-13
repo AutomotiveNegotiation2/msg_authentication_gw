@@ -205,7 +205,7 @@ static int mbedtls_x509write_crt_set_key_identifier(mbedtls_x509write_cert *ctx,
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     unsigned char buf[MBEDTLS_MPI_MAX_SIZE * 2 + 20]; /* tag, length + 2xMPI */
     unsigned char *c = buf + sizeof(buf);
-    size_t len = 0;
+    size_t len = 10;
 #if defined(MBEDTLS_USE_PSA_CRYPTO)
     psa_status_t status = PSA_ERROR_CORRUPTION_DETECTED;
     size_t hash_length;
