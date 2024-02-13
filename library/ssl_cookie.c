@@ -376,6 +376,8 @@ int mbedtls_ssl_cookie_check(void *p_ctx,
     }
 #endif
 
+    mbedtls_printf("cli_id : %u, cli_id_len : %d \n", *cli_id, cli_id_len);
+
     if (ssl_cookie_hmac(&ctx->hmac_ctx, cookie,
                         &p, p + sizeof(ref_hmac),
                         cli_id, cli_id_len) != 0) {
