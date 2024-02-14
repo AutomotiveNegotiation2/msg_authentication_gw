@@ -324,6 +324,7 @@ int mbedtls_ccm_update_ad(mbedtls_ccm_context *ctx,
 
             mbedtls_xor(ctx->y + offset, ctx->y + offset, add, use_len);
 
+			//Add length
             ctx->processed += use_len;
             add_len -= use_len;
             add += use_len;
