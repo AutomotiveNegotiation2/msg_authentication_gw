@@ -159,16 +159,19 @@ int mbedtls_ssl_cookie_setup(mbedtls_ssl_cookie_ctx *ctx,
     unsigned char test_key[COOKIE_MD_MAX_OUTLEN];
 
     if ((ret = f_rng(p_rng, key, sizeof(key))) != 0) {
+        mbedtls_printf("ret : %d \n", ret);
         return ret;
     }
 
     ret = mbedtls_md_setup(&ctx->hmac_ctx, mbedtls_md_info_from_type(COOKIE_MD), 1);
     if (ret != 0) {
+        mbedtls_printf("ret : %d \n", ret);
         return ret;
     }
 
     ret = mbedtls_md_hmac_starts(&ctx->hmac_ctx, key, sizeof(key));
     if (ret != 0) {
+        mbedtls_printf("ret : %d \n", ret);
         return ret;
     }
 
