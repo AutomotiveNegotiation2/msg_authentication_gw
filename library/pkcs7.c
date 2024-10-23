@@ -101,6 +101,11 @@ static int pkcs7_get_content_info_type(unsigned char **p, unsigned char *end,
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     unsigned char *start = *p;
 
+    if(start = NULL || end == NULL)
+    {
+        return -1;
+    }
+    
     ret = mbedtls_asn1_get_tag(p, end, &len, MBEDTLS_ASN1_CONSTRUCTED
                                | MBEDTLS_ASN1_SEQUENCE);
     if (ret != 0) {
