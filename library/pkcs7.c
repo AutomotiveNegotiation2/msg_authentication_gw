@@ -74,14 +74,13 @@ static int pkcs7_get_version(unsigned char **p, unsigned char *end, int *ver)
 {
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
 
+    if(p == NULL || end == NULL || ver == NULL)
+    {
+        return -1;
+    }
     ret = mbedtls_asn1_get_int(p, end, ver);
     if (ret != 0) {
         ret = MBEDTLS_ERROR_ADD(MBEDTLS_ERR_PKCS7_INVALID_VERSION, ret);
-    }
-
-    /* If version != 1, return invalid version */
-    if (*ver != MBEDTLS_PKCS7_SUPPORTED_VERSION) {
-        ret = MBEDTLS_ERR_PKCS7_INVALID_VERSION;
     }
 
     return ret;
@@ -192,6 +191,10 @@ static int pkcs7_get_certificates(unsigned char **p, unsigned char *end,
     size_t len2 = 0;
     unsigned char *end_set, *end_cert, *start;
 
+    if(certs == NULL)
+    {
+        return MBEDTLS_ERR_PKCS7_INVALID_CERT;
+    }
     ret = mbedtls_asn1_get_tag(p, end, &len1, MBEDTLS_ASN1_CONSTRUCTED
                                | MBEDTLS_ASN1_CONTEXT_SPECIFIC);
     if (ret == MBEDTLS_ERR_ASN1_UNEXPECTED_TAG) {
@@ -243,6 +246,11 @@ static int pkcs7_get_signature(unsigned char **p, unsigned char *end,
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     size_t len = 0;
 
+    if(signature == nullptr) 
+    {
+        return ret;
+    }
+    
     ret = mbedtls_asn1_get_tag(p, end, &len, MBEDTLS_ASN1_OCTET_STRING);
     if (ret != 0) {
         return ret;
