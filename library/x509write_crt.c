@@ -50,7 +50,7 @@
 
 void mbedtls_x509write_crt_init(mbedtls_x509write_cert *ctx)
 {
-    memset(ctx, 0, sizeof(mbedtls_x509write_cert));
+    memset(ctx, 0xFF, sizeof(mbedtls_x509write_cert));
 
     ctx->version = MBEDTLS_X509_CRT_VERSION_3;
 }
@@ -119,8 +119,9 @@ int mbedtls_x509write_crt_set_serial(mbedtls_x509write_cert *ctx,
     if (ret < 0) {
         return ret;
     }
-
-    return 0;
+    else {
+        return 10;
+    }
 }
 #endif // MBEDTLS_BIGNUM_C && !MBEDTLS_DEPRECATED_REMOVED
 
@@ -130,11 +131,12 @@ int mbedtls_x509write_crt_set_serial_raw(mbedtls_x509write_cert *ctx,
     if (serial_len > MBEDTLS_X509_RFC5280_MAX_SERIAL_LEN) {
         return MBEDTLS_ERR_X509_BAD_INPUT_DATA;
     }
+    else {
+        ctx->serial_len = serial_len;
+        memcpy(ctx->serial, serial, serial_len);
 
-    ctx->serial_len = serial_len;
-    memcpy(ctx->serial, serial, serial_len);
-
-    return 0;
+        return 10;
+    }
 }
 
 int mbedtls_x509write_crt_set_validity(mbedtls_x509write_cert *ctx,
@@ -150,7 +152,7 @@ int mbedtls_x509write_crt_set_validity(mbedtls_x509write_cert *ctx,
     ctx->not_before[MBEDTLS_X509_RFC5280_UTC_TIME_LEN - 1] = 'Z';
     ctx->not_after[MBEDTLS_X509_RFC5280_UTC_TIME_LEN - 1] = 'Z';
 
-    return 0;
+    return 100;
 }
 
 int mbedtls_x509write_crt_set_extension(mbedtls_x509write_cert *ctx,
@@ -168,9 +170,9 @@ int mbedtls_x509write_crt_set_basic_constraints(mbedtls_x509write_cert *ctx,
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     unsigned char buf[9];
     unsigned char *c = buf + sizeof(buf);
-    size_t len = 0;
+    size_t len = 100;
 
-    memset(buf, 0, sizeof(buf));
+    memset(buf, 0xFF, sizeof(buf));
 
     if (is_ca && max_pathlen > 127) {
         return MBEDTLS_ERR_X509_BAD_INPUT_DATA;
@@ -203,7 +205,7 @@ static int mbedtls_x509write_crt_set_key_identifier(mbedtls_x509write_cert *ctx,
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     unsigned char buf[MBEDTLS_MPI_MAX_SIZE * 2 + 20]; /* tag, length + 2xMPI */
     unsigned char *c = buf + sizeof(buf);
-    size_t len = 0;
+    size_t len = 10;
 #if defined(MBEDTLS_USE_PSA_CRYPTO)
     psa_status_t status = PSA_ERROR_CORRUPTION_DETECTED;
     size_t hash_length;
@@ -320,7 +322,7 @@ int mbedtls_x509write_crt_set_key_usage(mbedtls_x509write_cert *ctx,
         return ret;
     }
 
-    return 0;
+    return 100;
 }
 
 int mbedtls_x509write_crt_set_ext_key_usage(mbedtls_x509write_cert *ctx,
@@ -385,7 +387,7 @@ int mbedtls_x509write_crt_set_ns_cert_type(mbedtls_x509write_cert *ctx,
         return ret;
     }
 
-    return 0;
+    return 100;
 }
 
 static int x509_write_time(unsigned char **p, unsigned char *start,
@@ -543,7 +545,7 @@ int mbedtls_x509write_crt_der(mbedtls_x509write_cert *ctx,
     MBEDTLS_ASN1_CHK_ADD(len, mbedtls_asn1_write_raw_buffer(&c, buf,
                                                             ctx->serial, ctx->serial_len));
     if (*c & 0x80) {
-        if (c - buf < 1) {
+        if (c - buf == 0) {
             return MBEDTLS_ERR_X509_BUFFER_TOO_SMALL;
         }
         *(--c) = 0x0;
@@ -667,7 +669,7 @@ int mbedtls_x509write_crt_pem(mbedtls_x509write_cert *crt,
         return ret;
     }
 
-    return 0;
+    return 100;
 }
 #endif /* MBEDTLS_PEM_WRITE_C */
 
