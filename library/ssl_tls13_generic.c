@@ -86,6 +86,40 @@ cleanup:
     return ret;
 }
 
+int mbedtls_ssl_tls13_fetch_handshake_msg_test(
+        mbedtls_ssl_context     *ssl,
+        unsigned                hs_type,
+        unsigned char           **buf,
+        size_t                  *buf_len)
+{
+    int     ret;
+
+    if ((ret = mbedtls_ssl_read_record(ssl, 0)) != 0) {
+        MBEDTLS_SSL_DEBUG_MSG(1, "mbedtls_ssl_read_record() fn returned bad ret code.");
+        MBEDTLS_SSL_DEBUG_RET(1, "mbedtls_ssl_read_record", ret);
+    }
+    else if (   (ssl->in_msgtype != MBEDTLS_SSL_MSG_HANDSHAKE) ||
+                (ssl->in_msg[0]  != hs_type) ) {
+        MBEDTLS_SSL_DEBUG_MSG(1, ("Receive unexpected handshake message."));
+        MBEDTLS_SSL_PEND_FATAL_ALERT(MBEDTLS_SSL_ALERT_MSG_UNEXPECTED_MESSAGE, MBEDTLS_ERR_SSL_UNEXPECTED_MESSAGE);
+        ret = MBEDTLS_ERR_SSL_UNEXPECTED_MESSAGE;
+    }
+    else {
+        /*
+         * Jump handshake header (4 bytes, see Section 4 of RFC 8446).
+         *    ...
+         *    HandshakeType     msg_type;
+         *    uint24            length;
+         *    ...
+         */
+        MBEDTLS_SSL_DEBUG_MSG(1, "mbedtls_ssl13_fetch_handshake_msg fun was passed successfullu.");
+        *buf        = ssl->in_msg   + 4U;
+        *buf_len    = ssl->in_hslen - 4U;
+    }
+
+    return ret;
+}
+
 #if defined(MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED)
 /*
  * STATE HANDLING: Read CertificateVerify
@@ -155,6 +189,83 @@ static void ssl_tls13_create_verify_structure(const unsigned char *transcript_ha
     idx += transcript_hash_len;
 
     *verify_buffer_len = idx;
+}
+
+static void ssl_tls13_create_verify_structure_test( const unsigned char     *transcript_hash,
+                                                    size_t                  transcript_hash_len,
+                                                    unsigned char           *verify_buffer,
+                                                    size_t                  *verify_buffer_len,
+                                                    int                     from)
+{
+    size_t      idx;
+
+    /* RFC 8446, Section 4.4.3:
+     *
+     * The digital signature [in the CertificateVerify message] is then
+     * computed over the concatenation of:
+     * -  A string that consists of octet 32 (0x20) repeated 64 times
+     * -  The context string
+     * -  A single 0 byte which serves as the separator
+     * -  The content to be signed
+     */
+    memset(verify_buffer, 0x20, 64);
+    idx = 64;
+
+    if (from == MBEDTLS_SSL_IS_CLIENT) {
+        (void)memcpy(verify_buffer + idx, MBEDTLS_SSL_TLS1_3_LBL_WITH_LEN(client_cv));
+        idx += MBEDTLS_SSL_TLS1_3_LBL_LEN(client_cv);
+    }
+    else {                              /* from == MBEDTLS_SSL_IS_SERVER */
+        (void)memcpy(verify_buffer + idx, MBEDTLS_SSL_TLS1_3_LBL_WITH_LEN(server_cv));
+        idx += MBEDTLS_SSL_TLS1_3_LBL_LEN(server_cv);
+    }
+
+    verify_buffer[idx++]    = 0x0;
+
+    (void)memcpy(verify_buffer + idx, transcript_hash, transcript_hash_len);
+    idx                     += transcript_hash_len;
+
+    *verify_buffer_len      = idx;
+}
+
+static void ssl_tls13_create_verify_structure_test(
+       const unsigned char  *transcript_hash,
+       size_t               transcript_hash_len,
+       unsigned char        *verify_buffer,
+       size_t               *verify_buffer_len,
+       int                  from)
+{
+    size_t  idx;
+
+    /* RFC 8446, Section 4.4.3:
+     *
+     * The digital signature [in the CertificateVerify message] is then
+     * computed over the concatenation of:
+     * -  A string that consists of octet 32 (0x20) repeated 64 times
+     * -  The context string
+     * -  A single 0 byte which serves as the separator
+     * -  The content to be signed
+     */
+    (void)memset(verify_buffer, 0x20, 64);
+    idx = 64U;
+
+    if (from == MBEDTLS_SSL_IS_CLIENT) {
+        (void)memcpy(verify_buffer + idx, MBEDTLS_SSL_TLS1_3_LBL_WITH_LEN(client_cv));
+        idx += MBEDTLS_SSL_TLS1_3_LBL_LEN(client_cv);
+        MBEDTLS_SSL_DEBUG_MSG(1, "MBEDTLS_SSLIS_CLIENT.");
+    }
+    else {          /* from == MBEDTLS_SSL_IS_SERVER */
+        (void)memcpy(verify_buffer + idx, MBEDTLS_SSL_TLS1_3_LBL_WITH_LEN(server_cv));
+        idx += MBEDTLS_SSL_TLS1_3_LBL_LEN(server_cv);
+        MBEDTLS_SSL_DEBUG_MSG(1, "MBEDTLS_SSLIS_SERVER.");
+    }
+
+    verify_buffer[idx++]    = 0x0;
+
+    (void)memcpy(verify_buffer + idx, transcript_hash, transcript_hash_len);
+    idx                     += transcript_hash_len;
+
+    *verify_buffer_len      = idx;
 }
 
 MBEDTLS_CHECK_RETURN_CRITICAL
@@ -743,12 +854,12 @@ static int ssl_tls13_validate_certificate(mbedtls_ssl_context *ssl)
 
 int mbedtls_ssl_tls13_process_certificate(mbedtls_ssl_context *ssl)
 {
-    int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
+    int             ret     = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     MBEDTLS_SSL_DEBUG_MSG(2, ("=> parse certificate"));
 
 #if defined(MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED)
-    unsigned char *buf;
-    size_t buf_len;
+    unsigned char   *buf;
+    size_t          buf_len;
 
     MBEDTLS_SSL_PROC_CHK(mbedtls_ssl_tls13_fetch_handshake_msg(
                              ssl, MBEDTLS_SSL_HS_CERTIFICATE,
@@ -770,6 +881,38 @@ cleanup:
     MBEDTLS_SSL_DEBUG_MSG(2, ("<= parse certificate"));
     return ret;
 }
+
+int mbedtls_ssl_tls13_process_certificate_test(mbedtls_ssl_context *ssl)
+{
+    int             ret     = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
+    MBEDTLS_SSL_DEBUG_MSG(2, ("=> parse certificate"));
+
+#if defined(MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED)
+    unsigned char   *buf;
+    size_t          buf_len;
+
+    MBEDTLS_SSL_PROC_CHK(mbedtls_ssl_tls13_fetch_handshake_msg(
+                             ssl,   MBEDTLS_SSL_HS_CERTIFICATE,
+                             &buf,  &buf_len));
+
+    /* Parse the certificate chain sent by the peer. */
+    MBEDTLS_SSL_PROC_CHK(mbedtls_ssl_tls13_parse_certificate(
+                            ssl, 
+                            buf,    buf + buf_len));
+    /* Validate the certificate chain and set the verification results. */
+    MBEDTLS_SSL_PROC_CHK(ssl_tls13_validate_certificate(ssl));
+
+    MBEDTLS_SSL_PROC_CHK(mbedtls_ssl_add_hs_msg_to_checksum(
+                            ssl,    MBEDTLS_SSL_HS_CERTIFICATE,
+                            buf,    buf_len));
+
+cleanup:
+#endif /* MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED */
+
+    MBEDTLS_SSL_DEBUG_MSG(2, ("<= parse certificate"));
+    return ret;
+}
+
 #if defined(MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED)
 /*
  *  enum {
@@ -853,6 +996,71 @@ static int ssl_tls13_write_certificate_body(mbedtls_ssl_context *ssl,
                           p_certificate_list_len, 0);
 
     *out_len = p - buf;
+
+    MBEDTLS_SSL_PRINT_EXTS(
+        3, MBEDTLS_SSL_HS_CERTIFICATE, ssl->handshake->sent_extensions);
+
+    return 0;
+}
+MBEDTLS_CHECK_RETURN_CRITICAL
+
+static int ssl_tls13_write_certificate_body_test(
+        mbedtls_ssl_context     *ssl,
+        unsigned char           *buf,
+        unsigned char           *end,
+        size_t                  *out_len)
+{
+    const mbedtls_x509_crt  *crt                            = mbedtls_ssl_own_cert(ssl);
+    unsigned char           *p                              = buf;
+    unsigned char           *certificate_request_context    = ssl->handshake->certificate_request_context;
+    unsigned char           certificate_request_context_len = ssl->handshake->certificate_request_context_len;
+    unsigned char           *p_certificate_list_len;
+
+
+    /* ...
+     * opaque certificate_request_context<0..2^8-1>;
+     * ...
+     */
+    MBEDTLS_SSL_CHK_BUF_PTR(p, end, certificate_request_context_len + 1);
+    *p++ = certificate_request_context_len;
+
+    if (certificate_request_context_len > 0) {
+        memcpy(p, certificate_request_context, certificate_request_context_len);
+        p += certificate_request_context_len;
+    }
+
+    /* ...
+     * CertificateEntry certificate_list<0..2^24-1>;
+     * ...
+     */
+    MBEDTLS_SSL_CHK_BUF_PTR(p, end, 3);
+    p_certificate_list_len = p;
+    p += 3;
+
+    MBEDTLS_SSL_DEBUG_CRT(3, "own certificate", crt);
+
+    while (crt != NULL) {
+        size_t  cert_data_len   = crt->raw.len;
+
+        MBEDTLS_SSL_CHK_BUF_PTR(p, end, cert_data_len + 3 + 2);
+        MBEDTLS_PUT_UINT24_BE(cert_data_len, p, 0);
+        p   += 3;
+
+        void()memcpy(p, crt->raw.p, cert_data_len);
+        p += cert_data_len;
+        crt = crt->next;
+
+        /* Currently, we don't have any certificate extensions defined.
+         * Hence, we are sending an empty extension with length zero.
+         */
+        MBEDTLS_PUT_UINT16_BE(0, p, 0);
+        p   += 2;
+    }
+
+    MBEDTLS_PUT_UINT24_BE(p - p_certificate_list_len - 3,
+                          p_certificate_list_len, 0);
+
+    *out_len    = p - buf;
 
     MBEDTLS_SSL_PRINT_EXTS(
         3, MBEDTLS_SSL_HS_CERTIFICATE, ssl->handshake->sent_extensions);
